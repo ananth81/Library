@@ -10,6 +10,7 @@ SRC = HMI/homeScreen.cpp          \
       HMI/AddBookScreen.cpp       \
       HMI/RemoveBookScreen.cpp    \
       HMI/IssueBookScreen.cpp     \
+      HMI/QueryBookScreen.cpp     \
       App/main.cpp
 
 $(foreach directory , $(sort $(dir $(SRC))) , $(shell mkdir -p $(OUT)/$(directory)))

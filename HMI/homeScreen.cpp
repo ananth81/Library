@@ -62,6 +62,8 @@ void homeScreen::on_button_clicked(const Glib::ustring& data)
   screenManager.processEvent(HMIEvents::REMOVE_BOOK_SELECT,NULL);
   else if( data =="Issue/ReturnBook")
   screenManager.processEvent(HMIEvents::ISSUE_RETURN_BOOK_SELECT,NULL);
+  else if( data =="QueryBook")
+  screenManager.processEvent(HMIEvents::QUERY_BOOK_SELECT,NULL);
 }
 
 

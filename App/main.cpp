@@ -8,6 +8,7 @@
 #include "HMI/RemoveBookScreen.h"
 #include "HMI/IssueBookScreen.h"
 #include "HMI/RemoveMemberScreen.h"
+#include "HMI/QueryBookScreen.h"
 class Library {
     
     public:
@@ -16,7 +17,8 @@ class Library {
                 RemoveMember(screenMgr,win),
                 AddBook(screenMgr,win),
                 RemoveBook(screenMgr,win),
-                IssueBook(screenMgr,win)
+                IssueBook(screenMgr,win),
+                QueryBook(screenMgr,win)
                 
        
       {}
@@ -30,6 +32,7 @@ class Library {
       AddBookScreen   AddBook;
       RemoveBookScreen RemoveBook;
       IssueBookScreen  IssueBook;
+      QueryBookScreen  QueryBook;
       RemoveMemberScreen RemoveMember;
         
 };

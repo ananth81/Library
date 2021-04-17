@@ -27,6 +27,10 @@ void ScreenManager::processEvent(HMIEvents::HMIEvents_t event , void *ptr)
 		  updateScreen(HMISCREENS::REMOVEMEMBER_SCREEN);
 		break;
 		
+		case HMIEvents::QUERY_BOOK_SELECT:
+		  updateScreen(HMISCREENS::QUERYBOOK_SCREEN);
+		break;
+		
 		case HMIEvents::PREVIOUS_SCREEN:
 		  returnToPreviousScreen();
 		break;
