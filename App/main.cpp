@@ -9,6 +9,8 @@
 #include "HMI/IssueBookScreen.h"
 #include "HMI/RemoveMemberScreen.h"
 #include "HMI/QueryBookScreen.h"
+#include "SQliteDB/sqliteDB.h"
+
 class Library {
     
     public:
@@ -18,13 +20,15 @@ class Library {
                 AddBook(screenMgr,win),
                 RemoveBook(screenMgr,win),
                 IssueBook(screenMgr,win),
-                QueryBook(screenMgr,win)
+                QueryBook(screenMgr,win),
+                screenMgr(sqliteDB)
                 
        
       {}
      Gtk::Window& getBaseWindow(){ return win;}
      void start(void){ screenMgr.start();}
     private:
+      LibSQLiteDB  sqliteDB;
       ScreenManager screenMgr;
       Gtk::Window win;
       homeScreen  home;

@@ -1,6 +1,6 @@
 
-CFLAGS=$(shell pkg-config gtkmm-3.0 --cflags) -MMD -I ./
-LDFLAGS=$(shell pkg-config gtkmm-3.0 --libs)
+CFLAGS=$(shell pkg-config gtkmm-3.0 sqlite3 --cflags) -MMD -I ./
+LDFLAGS=$(shell pkg-config gtkmm-3.0 sqlite3 --libs)
 CXX=g++
 OUT=out
 SRC = HMI/homeScreen.cpp          \
@@ -11,6 +11,7 @@ SRC = HMI/homeScreen.cpp          \
       HMI/RemoveBookScreen.cpp    \
       HMI/IssueBookScreen.cpp     \
       HMI/QueryBookScreen.cpp     \
+      SQliteDB/sqliteDB.cpp       \
       App/main.cpp
 
 $(foreach directory , $(sort $(dir $(SRC))) , $(shell mkdir -p $(OUT)/$(directory)))

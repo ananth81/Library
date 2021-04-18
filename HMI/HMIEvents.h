@@ -4,6 +4,7 @@ namespace HMIEvents {
     
 typedef enum HMIEventsTag{
     ADD_NEW_BOOK_SELECT,
+    ADD_NEW_BOOK_CONFIRM,
     ADD_NEW_MEMBER_SELECT,
     ADD_NEW_MEMBER_CONFIRM,
     REMOVE_MEMBER_SELECT,

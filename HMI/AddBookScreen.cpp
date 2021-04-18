@@ -1,5 +1,6 @@
-#include "AddBookScreen.h"
 #include <iostream>
+#include "AddBookScreen.h"
+#include "libbook.h"
 
 AddBookScreen::AddBookScreen(ScreenManager& ScreenMgr,Gtk::Window& win)
 : Screen(ScreenMgr),
@@ -50,5 +51,16 @@ void AddBookScreen::on_button_clicked(const Glib::ustring& data)
 {
 	if(data == "Back")
 	  screenManager.processEvent(HMIEvents::PREVIOUS_SCREEN,NULL);
+    else if( data == "AddBook")
+    {
+      libBook newBook(ScreenWidgetPtr->TitleEntry.get_text(),
+                      ScreenWidgetPtr->AuthorEntry.get_text(),
+                      "No",
+                      "0000/00/00",
+                      "0000/00/00"
+                      );
+      ScreenWidgetPtr->TitleEntry.get_text();
+      screenManager.processEvent(HMIEvents::ADD_NEW_BOOK_CONFIRM,(void*)&newBook);
+    }
 }
 
