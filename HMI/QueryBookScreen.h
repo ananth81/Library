@@ -28,6 +28,7 @@ private:
 	                   Title("Title:"),
 	                   Author("Author:"),
 	                   SerialNo("Serial No:"),
+	                   mColumns(NULL),
 	                   box(Gtk::Orientation::ORIENTATION_VERTICAL)
 	                   
 	                  
@@ -54,13 +55,14 @@ private:
           Gtk::TreeModelColumn<Glib::ustring> dor;
           Gtk::TreeModelColumn<Glib::ustring> serial;
           Gtk::TreeModelColumn<Glib::ustring> memberID;
+          Gtk::ScrolledWindow m_ScrolledWindow;
+          Gtk::TreeView m_TreeView;
+          Glib::RefPtr<Gtk::ListStore> m_refTreeModel;
        };
 	   
        Gtk::Button buttonQueryBook;
-       ModelColumns mColumns;
-       Gtk::ScrolledWindow m_ScrolledWindow;
-       Gtk::TreeView m_TreeView;
-       Glib::RefPtr<Gtk::ListStore> m_refTreeModel;
+       ModelColumns *mColumns;
+       
        Gtk::Label  Title;
        Gtk::Entry  TitleEntry;
        Gtk::Label  Author;

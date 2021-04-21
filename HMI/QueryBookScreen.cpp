@@ -33,17 +33,6 @@ void QueryBookScreen::DrawScreen(void)
   ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->buttonQueryBook,1,3);
   ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->buttonBack,1,4);
   
-  ScreenWidgetPtr->m_ScrolledWindow.add(ScreenWidgetPtr->m_TreeView);
-
-      //Only show the scrollbars when they are necessary:    
-  ScreenWidgetPtr->m_ScrolledWindow.set_policy(Gtk::PolicyType::POLICY_AUTOMATIC, Gtk::PolicyType::POLICY_AUTOMATIC);
-     
-  
-    
-      //Create the Tree model:
-  ScreenWidgetPtr->m_refTreeModel = Gtk::ListStore::create(ScreenWidgetPtr->mColumns);
-  ScreenWidgetPtr->m_TreeView.set_model(ScreenWidgetPtr->m_refTreeModel);
-  ScreenWidgetPtr->box.pack_start(ScreenWidgetPtr->m_ScrolledWindow);
   window.show_all_children();
  
 }
@@ -58,33 +47,46 @@ void QueryBookScreen::UpdateDataToHMI(HMIEvents::HMIEvents_t event, void* data)
 {
    if(HMIEvents::HMI_UPDATE_BOOK_QUERY_LIST == event)
    {
-      //Add the TreeView, inside a ScrolledWindow, with the button underneath:
-      
+      if(ScreenWidgetPtr->mColumns)
+      {
+		  ScreenWidgetPtr->box.remove(ScreenWidgetPtr->mColumns->m_ScrolledWindow);
+		  delete ScreenWidgetPtr->mColumns;
+	  }
+      ScreenWidgetPtr->mColumns=new ScreenWidgets::ModelColumns;
+      ScreenWidgetPtr->mColumns->m_ScrolledWindow.add(ScreenWidgetPtr->mColumns->m_TreeView);
 
+      //Only show the scrollbars when they are necessary:    
+      ScreenWidgetPtr->mColumns->m_ScrolledWindow.set_policy(Gtk::PolicyType::POLICY_AUTOMATIC, Gtk::PolicyType::POLICY_AUTOMATIC);
+     
+      //Create the Tree model:
+      ScreenWidgetPtr->mColumns->m_refTreeModel = Gtk::ListStore::create(*(ScreenWidgetPtr->mColumns));
+      ScreenWidgetPtr->mColumns->m_TreeView.set_model(ScreenWidgetPtr->mColumns->m_refTreeModel);
+      ScreenWidgetPtr->box.pack_start(ScreenWidgetPtr->mColumns->m_ScrolledWindow);
+        
 	  //Fill the TreeView's model
 	  std::vector<libBook> *ptr=(std::vector<libBook> *)data;
 	  std::vector<libBook>::iterator iter = ptr->begin();
 	  for(iter=ptr->begin();iter!=ptr->end(); iter++)
 	  {
-	    auto row = *(ScreenWidgetPtr->m_refTreeModel->append());
-	    row[ScreenWidgetPtr->mColumns.m_title] = (*iter).getTitle();
-	    row[ScreenWidgetPtr->mColumns.m_author] = (*iter).getAuthor();
-	    row[ScreenWidgetPtr->mColumns.m_reference] = (*iter).isReference();
-	    row[ScreenWidgetPtr->mColumns.doi] = (*iter).getDateOfIssue();
-	    row[ScreenWidgetPtr->mColumns.dor] = (*iter).getDateOfReturn();
-	    row[ScreenWidgetPtr->mColumns.memberID] = (*iter).getMemberID();
+	    auto row = *(ScreenWidgetPtr->mColumns->m_refTreeModel->append());
+	    row[ScreenWidgetPtr->mColumns->m_title] = (*iter).getTitle();
+	    row[ScreenWidgetPtr->mColumns->m_author] = (*iter).getAuthor();
+	    row[ScreenWidgetPtr->mColumns->m_reference] = (*iter).isReference();
+	    row[ScreenWidgetPtr->mColumns->doi] = (*iter).getDateOfIssue();
+	    row[ScreenWidgetPtr->mColumns->dor] = (*iter).getDateOfReturn();
+	    row[ScreenWidgetPtr->mColumns->memberID] = (*iter).getMemberID();
       }
 	  
 	  //Add the TreeView's view columns:
 	  //This number will be shown with the default numeric formatting.
-	  ScreenWidgetPtr->m_TreeView.append_column("Title", ScreenWidgetPtr->mColumns.m_title);
-	  ScreenWidgetPtr->m_TreeView.append_column("Author",ScreenWidgetPtr->mColumns.m_author);
-	  ScreenWidgetPtr->m_TreeView.append_column("Reference", ScreenWidgetPtr->mColumns.m_reference);
-	  ScreenWidgetPtr->m_TreeView.append_column("Date Of Issue",ScreenWidgetPtr->mColumns.doi);
-	  ScreenWidgetPtr->m_TreeView.append_column("Date Of Return", ScreenWidgetPtr->mColumns.dor);
-	  ScreenWidgetPtr->m_TreeView.append_column("MemberID",ScreenWidgetPtr->mColumns.memberID);
+	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("Title", ScreenWidgetPtr->mColumns->m_title);
+	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("Author",ScreenWidgetPtr->mColumns->m_author);
+	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("Reference", ScreenWidgetPtr->mColumns->m_reference);
+	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("Date Of Issue",ScreenWidgetPtr->mColumns->doi);
+	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("Date Of Return", ScreenWidgetPtr->mColumns->dor);
+	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("MemberID",ScreenWidgetPtr->mColumns->memberID);
 
-      ScreenWidgetPtr->m_TreeView.expand_all();
+      ScreenWidgetPtr->mColumns->m_TreeView.expand_all();
       
       window.show_all_children();
   }
