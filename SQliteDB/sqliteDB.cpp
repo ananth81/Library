@@ -62,7 +62,7 @@ int LibSQLiteDB::libBookcallback(void *data, int argc, char **argv, char **azCol
       if(std::string(azColName[i]) == "DOR")
        book.setDateOfReturn(std::string(argv[i])); 
       if(std::string(azColName[i]) == "MEMBERID")
-       book.setMemberID(atol(argv[i])); 
+       book.setMemberID(argv[i]); 
        
        
       

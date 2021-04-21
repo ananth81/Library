@@ -1,10 +1,7 @@
 #ifndef GTKMM_QUERY_BOOK_SCREEN_H
 #define GTKMM_QUERY_BOOK_SCREEN_H
 
-#include <gtkmm/button.h>
-#include <gtkmm/window.h>
-#include <gtkmm/grid.h>
-#include <gtkmm/label.h>
+
 #include <gtkmm.h>
 #include "screen.h"
 
@@ -15,6 +12,7 @@ public:
   QueryBookScreen(ScreenManager& ScreenMgr ,Gtk::Window& window);
   void DrawScreen(void);
   void ClearScreen(void);
+  void UpdateDataToHMI(HMIEvents::HMIEvents_t , void*);
   virtual ~QueryBookScreen();
 
 protected:
@@ -29,13 +27,40 @@ private:
 	                   buttonBack("Back"),
 	                   Title("Title:"),
 	                   Author("Author:"),
-	                   SerialNo("Serial No:")
+	                   SerialNo("Serial No:"),
+	                   box(Gtk::Orientation::ORIENTATION_VERTICAL)
 	                   
 	                  
 	   {}
 	   virtual ~ScreenWidgets(){}
+	   class ModelColumns : public Gtk::TreeModel::ColumnRecord
+       {
+          public:
+
+          ModelColumns()
+             { add(m_title); 
+			   add(m_author); 
+			   add(m_reference); 
+			   add(doi);
+			   add(dor);
+			   add(serial);
+			   add(memberID);
+			   }
+
+          Gtk::TreeModelColumn<Glib::ustring> m_title;
+          Gtk::TreeModelColumn<Glib::ustring> m_author;
+          Gtk::TreeModelColumn<Glib::ustring> m_reference;
+          Gtk::TreeModelColumn<Glib::ustring> doi;
+          Gtk::TreeModelColumn<Glib::ustring> dor;
+          Gtk::TreeModelColumn<Glib::ustring> serial;
+          Gtk::TreeModelColumn<Glib::ustring> memberID;
+       };
 	   
        Gtk::Button buttonQueryBook;
+       ModelColumns mColumns;
+       Gtk::ScrolledWindow m_ScrolledWindow;
+       Gtk::TreeView m_TreeView;
+       Glib::RefPtr<Gtk::ListStore> m_refTreeModel;
        Gtk::Label  Title;
        Gtk::Entry  TitleEntry;
        Gtk::Label  Author;
@@ -44,6 +69,7 @@ private:
        Gtk::Entry  SerialNoEntry;
        Gtk::Button buttonBack;
        Gtk::Grid   grid;
+       Gtk::Box    box;
        
    };
    ScreenWidgets *ScreenWidgetPtr;

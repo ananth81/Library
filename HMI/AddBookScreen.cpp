@@ -59,7 +59,7 @@ void AddBookScreen::on_button_clicked(const Glib::ustring& data)
                       "0000/00/00",
                       "0000/00/00"
                       );
-      ScreenWidgetPtr->TitleEntry.get_text();
+      
       screenManager.processEvent(HMIEvents::ADD_NEW_BOOK_CONFIRM,(void*)&newBook);
     }
 }

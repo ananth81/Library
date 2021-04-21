@@ -1,10 +1,7 @@
 #ifndef GTKMM_REMOVE_MEMBER_SCREEN_H
 #define GTKMM_REMOVE_MEMBER_SCREEN_H
 
-#include <gtkmm/button.h>
-#include <gtkmm/window.h>
-#include <gtkmm/grid.h>
-#include <gtkmm/label.h>
+
 #include <gtkmm.h>
 #include "screen.h"
 

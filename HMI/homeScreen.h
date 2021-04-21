@@ -1,12 +1,7 @@
 #ifndef GTKMM_HOME_SCREEN_H
 #define GTKMM_HOME_SCREEN_H
 
-
-
-
-#include <gtkmm/button.h>
-#include <gtkmm/window.h>
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 #include "screen.h"
 
 class homeScreen :public Screen

@@ -24,13 +24,13 @@ class libBook: public Book
     { return misReference;}
     std::string& getDateOfIssue(void) { return mdoi;}
     std::string& getDateOfReturn(void) { return mdor;}
-    serialNo& getMemberID(void) { return memberID;}
+    std::string& getMemberID(void) { return memberID;}
    
     void SetisReference(std::string ref)
     {  misReference=ref;}
     void setDateOfIssue(std::string doi) { mdoi=doi;}
     void setDateOfReturn(std::string dor) { mdor=dor;}
-    void setMemberID(serialNo memID) { memberID=memID;}
+    void setMemberID(std::string memID) { memberID=memID;}
    
     
     serialNo getSerialNo(void) { return mserialNo;}    
@@ -39,7 +39,7 @@ class libBook: public Book
    std::string mdoi;
    std::string mdor;
    serialNo mserialNo;
-   serialNo memberID;
+   std::string memberID;
 };
 
 
