@@ -27,9 +27,11 @@ void AddBookScreen::DrawScreen(void)
   ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->TitleEntry,1,0);
   ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->Author,0,1);
   ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->AuthorEntry,1,1);
-  ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->SerialNo,0,2);
-  ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->SerialNoEntry,1,2);
-  
+  ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->IsReference,0,2);
+  ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->m_Combo,1,2);
+  ScreenWidgetPtr->m_Combo.append("No");
+  ScreenWidgetPtr->m_Combo.append("Yes");
+  ScreenWidgetPtr->m_Combo.set_active(0);
   
   ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->buttonAddBook,1,3);
   ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->buttonBack,1,4);
@@ -55,7 +57,7 @@ void AddBookScreen::on_button_clicked(const Glib::ustring& data)
     {
       libBook newBook(ScreenWidgetPtr->TitleEntry.get_text(),
                       ScreenWidgetPtr->AuthorEntry.get_text(),
-                      "No",
+                      ScreenWidgetPtr->m_Combo.get_active_text(),
                       "0000/00/00",
                       "0000/00/00"
                       );

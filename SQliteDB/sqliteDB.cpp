@@ -63,8 +63,8 @@ int LibSQLiteDB::libBookcallback(void *data, int argc, char **argv, char **azCol
        book.setDateOfReturn(std::string(argv[i])); 
       if(std::string(azColName[i]) == "MEMBERID")
        book.setMemberID(argv[i]); 
-       
-       
+      if(std::string(azColName[i]) == "REFERENCE") 
+       book.SetisReference(std::string(argv[i]));
       
    }
    bookVec.push_back(book);

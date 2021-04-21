@@ -26,7 +26,7 @@ private:
 	                   buttonBack("Back"),
 	                   Title("Title:"),
 	                   Author("Author:"),
-	                   SerialNo("Serial No:")
+	                   IsReference("Reference Book:")
 	                   
 	                  
 	   {}
@@ -37,8 +37,8 @@ private:
        Gtk::Entry  TitleEntry;
        Gtk::Label  Author;
        Gtk::Entry  AuthorEntry;
-       Gtk::Label  SerialNo;
-       Gtk::Entry  SerialNoEntry;
+       Gtk::Label  IsReference;
+       Gtk::ComboBoxText m_Combo;;
        Gtk::Button buttonBack;
        Gtk::Grid   grid;
        
