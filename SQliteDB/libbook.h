@@ -6,8 +6,8 @@
 class libBook: public Book
 {
   public:
-    typedef  unsigned long serialNo; 
-    libBook():mserialNo(0)
+    
+    libBook()
     {
     }
     libBook(std::string Title , 
@@ -31,14 +31,15 @@ class libBook: public Book
     void setDateOfIssue(std::string doi) { mdoi=doi;}
     void setDateOfReturn(std::string dor) { mdor=dor;}
     void setMemberID(std::string memID) { memberID=memID;}
-   
+    void setSerialNo(std::string Serial) { mserialNo = Serial;}
     
-    serialNo getSerialNo(void) { return mserialNo;}    
+    std::string& getSerialNo(void) { return mserialNo;} 
+       
  private:
    std::string misReference;
    std::string mdoi;
    std::string mdor;
-   serialNo mserialNo;
+   std::string mserialNo;
    std::string memberID;
 };
 

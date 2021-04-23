@@ -65,6 +65,8 @@ int LibSQLiteDB::libBookcallback(void *data, int argc, char **argv, char **azCol
        book.setMemberID(argv[i]); 
       if(std::string(azColName[i]) == "REFERENCE") 
        book.SetisReference(std::string(argv[i]));
+      if(std::string(azColName[i]) == "rowid") 
+       book.setSerialNo(std::string(argv[i]));
       
    }
    bookVec.push_back(book);
@@ -162,7 +164,7 @@ int LibSQLiteDB::RemoveBook(libBook& book)
    bool error = true;
    char *zErrMsg = NULL;
    char *sqlcommand =NULL;
-   if(0 < asprintf(&sqlcommand,"DELETE FROM LIBRARYBOOKS WHERE rowid = %lu ;",book.getSerialNo()))
+   if(0 < asprintf(&sqlcommand,"DELETE FROM LIBRARYBOOKS WHERE rowid = %s ;",book.getSerialNo().c_str()))
    {
       int rc=sqlite3_exec(db,sqlcommand,&libBookcallback,0,&zErrMsg);
     
@@ -184,7 +186,7 @@ std::vector<libBook>& LibSQLiteDB::QueryBookAvailability(libBook& book)
    bool error=true;
    char *zErrMsg = NULL;
    char *sqlcommand =NULL;
-   if(0 < asprintf(&sqlcommand,"SELECT * FROM LIBRARYBOOKS \
+   if(0 < asprintf(&sqlcommand,"SELECT rowid,* FROM LIBRARYBOOKS \
                   WHERE TITLE='%s' AND AUTHOR='%s' AND MEMBERID = %lu ;",
                   book.getTitle().c_str(),
                   book.getAuthor().c_str(),
@@ -212,7 +214,7 @@ int LibSQLiteDB::IssueBook(libBook& libbook,libMember& member)
    char *sqlcommand =NULL;
    if(0 < asprintf(&sqlcommand,"UPDATE LIBRARYBOOKS \
                                 SET MEMBERID = %lu \
-                                WHERE rowid = %lu ;",member.getMemberID(),libbook.getSerialNo()))
+                                WHERE rowid = %s ;",member.getMemberID(),libbook.getSerialNo().c_str()))
    {
       int rc=sqlite3_exec(db,sqlcommand,&libBookcallback,0,&zErrMsg);
     
@@ -235,7 +237,7 @@ int LibSQLiteDB::ReturnBook(libBook& libbook, libMember& member)
    char *sqlcommand =NULL;
    if(0 < asprintf(&sqlcommand,"UPDATE LIBRARYBOOKS \
                                 SET MEMBERID = %lu \
-                                WHERE rowid = %lu ;",UNUSED_MEMBERID,libbook.getSerialNo()))
+                                WHERE rowid = %s ;",UNUSED_MEMBERID,libbook.getSerialNo().c_str()))
    {
       int rc=sqlite3_exec(db,sqlcommand,&libBookcallback,0,&zErrMsg);
     

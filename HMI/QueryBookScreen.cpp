@@ -26,8 +26,6 @@ void QueryBookScreen::DrawScreen(void)
   ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->TitleEntry,1,0);
   ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->Author,0,1);
   ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->AuthorEntry,1,1);
-  ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->SerialNo,0,2);
-  ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->SerialNoEntry,1,2);
   
   
   ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->buttonQueryBook,1,3);
@@ -75,17 +73,19 @@ void QueryBookScreen::UpdateDataToHMI(HMIEvents::HMIEvents_t event, void* data)
 	    row[ScreenWidgetPtr->mColumns->doi] = (*iter).getDateOfIssue();
 	    row[ScreenWidgetPtr->mColumns->dor] = (*iter).getDateOfReturn();
 	    row[ScreenWidgetPtr->mColumns->memberID] = (*iter).getMemberID();
+	    row[ScreenWidgetPtr->mColumns->serial] = (*iter).getSerialNo();
       }
 	  
 	  //Add the TreeView's view columns:
 	  //This number will be shown with the default numeric formatting.
+	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("SerialNo",ScreenWidgetPtr->mColumns->serial);
 	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("Title", ScreenWidgetPtr->mColumns->m_title);
 	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("Author",ScreenWidgetPtr->mColumns->m_author);
 	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("Reference", ScreenWidgetPtr->mColumns->m_reference);
 	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("Date Of Issue",ScreenWidgetPtr->mColumns->doi);
 	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("Date Of Return", ScreenWidgetPtr->mColumns->dor);
 	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("MemberID",ScreenWidgetPtr->mColumns->memberID);
-
+      
       ScreenWidgetPtr->mColumns->m_TreeView.expand_all();
       
       window.show_all_children();

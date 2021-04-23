@@ -27,7 +27,6 @@ private:
 	                   buttonBack("Back"),
 	                   Title("Title:"),
 	                   Author("Author:"),
-	                   SerialNo("Serial No:"),
 	                   mColumns(NULL),
 	                   box(Gtk::Orientation::ORIENTATION_VERTICAL)
 	                   
@@ -67,8 +66,7 @@ private:
        Gtk::Entry  TitleEntry;
        Gtk::Label  Author;
        Gtk::Entry  AuthorEntry;
-       Gtk::Label  SerialNo;
-       Gtk::Entry  SerialNoEntry;
+       
        Gtk::Button buttonBack;
        Gtk::Grid   grid;
        Gtk::Box    box;
