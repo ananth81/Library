@@ -21,6 +21,7 @@ private:
   Gtk::Window& window;
   //Signal handlers:
   void on_button_clicked(const Glib::ustring& data);
+  void on_selection_changed(void);
   class ScreenWidgets {
 	   public:
 	   ScreenWidgets():buttonQueryBook("QueryBook"),
@@ -57,6 +58,7 @@ private:
           Gtk::ScrolledWindow m_ScrolledWindow;
           Gtk::TreeView m_TreeView;
           Glib::RefPtr<Gtk::ListStore> m_refTreeModel;
+          Glib::RefPtr<Gtk::TreeSelection> TreeView_TreeSelection;
        };
 	   
        Gtk::Button buttonQueryBook;

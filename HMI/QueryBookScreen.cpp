@@ -85,6 +85,10 @@ void QueryBookScreen::UpdateDataToHMI(HMIEvents::HMIEvents_t event, void* data)
 	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("Date Of Issue",ScreenWidgetPtr->mColumns->doi);
 	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("Date Of Return", ScreenWidgetPtr->mColumns->dor);
 	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("MemberID",ScreenWidgetPtr->mColumns->memberID);
+	  
+	  ScreenWidgetPtr->mColumns->TreeView_TreeSelection=ScreenWidgetPtr->mColumns->m_TreeView.get_selection();
+	  ScreenWidgetPtr->mColumns->TreeView_TreeSelection->signal_changed().connect(sigc::mem_fun(*this,
+      &QueryBookScreen::on_selection_changed));
       
       ScreenWidgetPtr->mColumns->m_TreeView.expand_all();
       
@@ -113,3 +117,7 @@ void QueryBookScreen::on_button_clicked(const Glib::ustring& data)
     }
 }
 
+void QueryBookScreen::on_selection_changed(void)
+{
+	std::cout<<"row Selected"<<std::endl;
+}
