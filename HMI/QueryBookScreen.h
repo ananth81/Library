@@ -26,10 +26,11 @@ private:
 	   public:
 	   ScreenWidgets():buttonQueryBook("QueryBook"),
 	                   buttonBack("Back"),
-	                   Title("Title:"),
+                       Title("Title:"),
 	                   Author("Author:"),
 	                   mColumns(NULL),
 	                   box(Gtk::Orientation::ORIENTATION_VERTICAL)
+                       
 	                   
 	                  
 	   {}
@@ -38,7 +39,12 @@ private:
        {
           public:
 
-          ModelColumns()
+          ModelColumns():onSelectionButtonsRenderded(false),
+                         buttonIssue("IssueBook"),
+                         buttonReturn("Return Book"),
+                         buttonRemoveBook("DeleteBook"),
+                         hbox(Gtk::Orientation::ORIENTATION_HORIZONTAL)
+	                   
              { add(m_title); 
 			   add(m_author); 
 			   add(m_reference); 
@@ -59,6 +65,12 @@ private:
           Gtk::TreeView m_TreeView;
           Glib::RefPtr<Gtk::ListStore> m_refTreeModel;
           Glib::RefPtr<Gtk::TreeSelection> TreeView_TreeSelection;
+          Gtk::Box    hbox;
+          Gtk::Button buttonReturn;
+          Gtk::Button buttonIssue;
+          Gtk::Button buttonRemoveBook;
+          
+          bool onSelectionButtonsRenderded;
        };
 	   
        Gtk::Button buttonQueryBook;
@@ -68,10 +80,11 @@ private:
        Gtk::Entry  TitleEntry;
        Gtk::Label  Author;
        Gtk::Entry  AuthorEntry;
-       
        Gtk::Button buttonBack;
        Gtk::Grid   grid;
        Gtk::Box    box;
+       
+       
        
    };
    ScreenWidgets *ScreenWidgetPtr;

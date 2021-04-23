@@ -48,6 +48,7 @@ void QueryBookScreen::UpdateDataToHMI(HMIEvents::HMIEvents_t event, void* data)
       if(ScreenWidgetPtr->mColumns)
       {
 		  ScreenWidgetPtr->box.remove(ScreenWidgetPtr->mColumns->m_ScrolledWindow);
+          ScreenWidgetPtr->box.remove(ScreenWidgetPtr->mColumns->hbox);
 		  delete ScreenWidgetPtr->mColumns;
 	  }
       ScreenWidgetPtr->mColumns=new ScreenWidgets::ModelColumns;
@@ -77,7 +78,6 @@ void QueryBookScreen::UpdateDataToHMI(HMIEvents::HMIEvents_t event, void* data)
       }
 	  
 	  //Add the TreeView's view columns:
-	  //This number will be shown with the default numeric formatting.
 	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("SerialNo",ScreenWidgetPtr->mColumns->serial);
 	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("Title", ScreenWidgetPtr->mColumns->m_title);
 	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("Author",ScreenWidgetPtr->mColumns->m_author);
@@ -119,5 +119,21 @@ void QueryBookScreen::on_button_clicked(const Glib::ustring& data)
 
 void QueryBookScreen::on_selection_changed(void)
 {
-	std::cout<<"row Selected"<<std::endl;
+    Glib::RefPtr< Gtk::TreeModel > BookTreeModel=ScreenWidgetPtr->mColumns->TreeView_TreeSelection->get_model();
+    
+    Gtk::TreeModel::iterator iter=ScreenWidgetPtr->mColumns->TreeView_TreeSelection->get_selected(BookTreeModel);
+    Gtk::TreeModel::Row row = *iter;
+    ScreenWidgetPtr->mColumns->buttonIssue.set_sensitive(row[ScreenWidgetPtr->mColumns->m_reference]=="No");
+    ScreenWidgetPtr->mColumns->buttonReturn.set_sensitive(row[ScreenWidgetPtr->mColumns->m_reference]=="No");
+    if(!ScreenWidgetPtr->mColumns->onSelectionButtonsRenderded)
+    {
+       ScreenWidgetPtr->box.pack_start(ScreenWidgetPtr->mColumns->hbox);
+       ScreenWidgetPtr->mColumns->hbox.pack_start(ScreenWidgetPtr->mColumns->buttonIssue);
+       ScreenWidgetPtr->mColumns->hbox.pack_start(ScreenWidgetPtr->mColumns->buttonReturn);
+       ScreenWidgetPtr->mColumns->hbox.pack_start(ScreenWidgetPtr->mColumns->buttonRemoveBook);
+       ScreenWidgetPtr->mColumns->onSelectionButtonsRenderded=true;
+    }
+    window.show_all_children();   
 }
+
+
