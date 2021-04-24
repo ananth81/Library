@@ -71,9 +71,9 @@ void QueryBookScreen::UpdateDataToHMI(HMIEvents::HMIEvents_t event, void* data)
 	    row[ScreenWidgetPtr->mColumns->m_title] = (*iter).getTitle();
 	    row[ScreenWidgetPtr->mColumns->m_author] = (*iter).getAuthor();
 	    row[ScreenWidgetPtr->mColumns->m_reference] = (*iter).isReference();
-	    row[ScreenWidgetPtr->mColumns->doi] = (*iter).getDateOfIssue();
-	    row[ScreenWidgetPtr->mColumns->dor] = (*iter).getDateOfReturn();
-	    row[ScreenWidgetPtr->mColumns->memberID] = (*iter).getMemberID();
+	    row[ScreenWidgetPtr->mColumns->doi] = (*iter).getDateOfIssue()==NULL_DATE?"N/A":(*iter).getDateOfIssue();
+	    row[ScreenWidgetPtr->mColumns->dor] = (*iter).getDateOfReturn()==NULL_DATE?"N/A":(*iter).getDateOfReturn();
+	    row[ScreenWidgetPtr->mColumns->memberID] = (*iter).getMemberID()=="0"?"N/A":(*iter).getMemberID();
 	    row[ScreenWidgetPtr->mColumns->serial] = (*iter).getSerialNo();
       }
 	  
@@ -110,8 +110,8 @@ void QueryBookScreen::on_button_clicked(const Glib::ustring& data)
 	  libBook book(ScreenWidgetPtr->TitleEntry.get_text(),
 	               ScreenWidgetPtr->AuthorEntry.get_text(),
 	               "No",
-                   "0000/00/00",
-                   "0000/00/00");
+                   NULL_DATE,
+                   NULL_DATE);
 	  screenManager.processEvent(HMIEvents::QUERY_BOOK_SELECT_CONFIRM,(void*)&book);
 	  
     }
@@ -143,8 +143,11 @@ void QueryBookScreen::on_selection_changed(void)
         Glib::RefPtr< Gtk::TreeModel > BookTreeModel=ScreenWidgetPtr->mColumns->TreeView_TreeSelection->get_model();
         Gtk::TreeModel::iterator iter=ScreenWidgetPtr->mColumns->TreeView_TreeSelection->get_selected(BookTreeModel);
         Gtk::TreeModel::Row row = *iter;
-        ScreenWidgetPtr->mColumns->buttonIssue.set_sensitive(row[ScreenWidgetPtr->mColumns->m_reference]=="No");
-        ScreenWidgetPtr->mColumns->buttonReturn.set_sensitive(row[ScreenWidgetPtr->mColumns->m_reference]=="No");
+        ScreenWidgetPtr->mColumns->buttonIssue.set_sensitive(row[ScreenWidgetPtr->mColumns->m_reference]=="No" &&
+        row[ScreenWidgetPtr->mColumns->memberID]=="N/A");
+        ScreenWidgetPtr->mColumns->buttonReturn.set_sensitive(row[ScreenWidgetPtr->mColumns->memberID]!="N/A");
+        ScreenWidgetPtr->mColumns->buttonRemove.set_sensitive(row[ScreenWidgetPtr->mColumns->memberID]=="N/A");
+        
         if(!ScreenWidgetPtr->mColumns->onSelectionButtonsRenderded)
         {
            ScreenWidgetPtr->box.pack_start(ScreenWidgetPtr->mColumns->hbox);

@@ -2,7 +2,7 @@
 #define LIB_BOOK_H
 #include "book.h"
 
-
+#define NULL_DATE "0000/00/00"
 class libBook: public Book
 {
   public:

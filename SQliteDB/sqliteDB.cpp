@@ -140,8 +140,8 @@ int LibSQLiteDB::AddNewBook(libBook& book)
                                             ,book.getAuthor().c_str()
                                             ,book.isReference().c_str()
                                             ,UNUSED_MEMBERID
-                                            ,UNUSED_DATE
-                                            ,UNUSED_DATE))
+                                            ,NULL_DATE
+                                            ,NULL_DATE))
                   
    {
       int rc=sqlite3_exec(db,sqlcommand,&libBookcallback,0,&zErrMsg);

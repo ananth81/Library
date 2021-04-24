@@ -58,8 +58,8 @@ void AddBookScreen::on_button_clicked(const Glib::ustring& data)
       libBook newBook(ScreenWidgetPtr->TitleEntry.get_text(),
                       ScreenWidgetPtr->AuthorEntry.get_text(),
                       ScreenWidgetPtr->m_Combo.get_active_text(),
-                      "0000/00/00",
-                      "0000/00/00"
+                      NULL_DATE,
+                      NULL_DATE
                       );
       
       screenManager.processEvent(HMIEvents::ADD_NEW_BOOK_CONFIRM,(void*)&newBook);
