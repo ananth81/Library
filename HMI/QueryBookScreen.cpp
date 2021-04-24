@@ -115,6 +115,21 @@ void QueryBookScreen::on_button_clicked(const Glib::ustring& data)
 	  screenManager.processEvent(HMIEvents::QUERY_BOOK_SELECT_CONFIRM,(void*)&book);
 	  
     }
+    else if(data == "BookIssue")
+    {
+    }
+    else if(data == "BookReturn")
+    {
+    }
+    else if(data == "BookRemove")
+    {
+       Glib::RefPtr< Gtk::TreeModel > BookTreeModel=ScreenWidgetPtr->mColumns->TreeView_TreeSelection->get_model();
+       Gtk::TreeModel::iterator iter=ScreenWidgetPtr->mColumns->TreeView_TreeSelection->get_selected(BookTreeModel);
+       Gtk::TreeModel::Row row = *iter;
+       libBook book;
+       book.setSerialNo(  row.get_value(ScreenWidgetPtr->mColumns->serial).c_str());
+       screenManager.processEvent(HMIEvents::QUERY_BOOK_REMOVE_CONFIRM,(void*)&book);
+    }
 }
 
 void QueryBookScreen::on_selection_changed(void)
@@ -130,7 +145,14 @@ void QueryBookScreen::on_selection_changed(void)
        ScreenWidgetPtr->box.pack_start(ScreenWidgetPtr->mColumns->hbox);
        ScreenWidgetPtr->mColumns->hbox.pack_start(ScreenWidgetPtr->mColumns->buttonIssue);
        ScreenWidgetPtr->mColumns->hbox.pack_start(ScreenWidgetPtr->mColumns->buttonReturn);
-       ScreenWidgetPtr->mColumns->hbox.pack_start(ScreenWidgetPtr->mColumns->buttonRemoveBook);
+       ScreenWidgetPtr->mColumns->hbox.pack_start(ScreenWidgetPtr->mColumns->buttonRemove);
+       ScreenWidgetPtr->mColumns->buttonIssue.signal_clicked().connect(sigc::bind(sigc::mem_fun(*this,
+              &QueryBookScreen::on_button_clicked),"BookIssue"));
+       ScreenWidgetPtr->mColumns->buttonReturn.signal_clicked().connect(sigc::bind(sigc::mem_fun(*this,
+              &QueryBookScreen::on_button_clicked),"BookReturn"));
+       ScreenWidgetPtr->mColumns->buttonRemove.signal_clicked().connect(sigc::bind(sigc::mem_fun(*this,
+              &QueryBookScreen::on_button_clicked),"BookRemove"));
+  
        ScreenWidgetPtr->mColumns->onSelectionButtonsRenderded=true;
     }
     window.show_all_children();   

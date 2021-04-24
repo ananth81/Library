@@ -18,7 +18,11 @@ void ScreenManager::processEvent(HMIEvents::HMIEvents_t event , void *ptr)
           database.AddNewBook(*(libBook*)ptr);
           break;
       }
-   
+      case HMIEvents::QUERY_BOOK_REMOVE_CONFIRM:
+      {
+          database.RemoveBook(*(libBook*)ptr);
+          break;
+      }
       case HMIEvents::ADD_NEW_MEMBER_SELECT:
       {
          updateScreen(HMISCREENS::ADDMEMBER_SCREEN);

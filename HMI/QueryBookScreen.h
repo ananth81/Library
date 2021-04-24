@@ -42,7 +42,7 @@ private:
           ModelColumns():onSelectionButtonsRenderded(false),
                          buttonIssue("IssueBook"),
                          buttonReturn("Return Book"),
-                         buttonRemoveBook("DeleteBook"),
+                         buttonRemove("DeleteBook"),
                          hbox(Gtk::Orientation::ORIENTATION_HORIZONTAL)
 	                   
              { add(m_title); 
@@ -68,7 +68,7 @@ private:
           Gtk::Box    hbox;
           Gtk::Button buttonReturn;
           Gtk::Button buttonIssue;
-          Gtk::Button buttonRemoveBook;
+          Gtk::Button buttonRemove;
           
           bool onSelectionButtonsRenderded;
        };
