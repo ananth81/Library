@@ -88,7 +88,7 @@ int LibSQLiteDB::libMembercallback(void *data, int argc, char **argv, char **azC
       
    }
    memberVec.push_back(member);
-   
+   std::cout<<"member added"<<std::endl;
    return 0;
 }
 
@@ -154,7 +154,7 @@ std::vector<libMember>& LibSQLiteDB::getMemberList(void)
             sqlite3_free(zErrMsg);
        } else {
             error = false;
-            std::cout<<"Member Removed successfully"<<std::endl;
+            std::cout<<"Member queried successfully"<<std::endl;
        }
        free(sqlcommand);
    }

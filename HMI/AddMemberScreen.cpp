@@ -50,6 +50,14 @@ AddMemberScreen::~AddMemberScreen()
 void AddMemberScreen::on_button_clicked(const Glib::ustring& data)
 {
 	if(data == "Back")
+	{
 	  screenManager.processEvent(HMIEvents::PREVIOUS_SCREEN,NULL);
+	}
+	else if(data == "AddNewMember")
+	{
+	  libMember member(ScreenWidgetPtr->NameEntry.get_text(),ScreenWidgetPtr->AddressEntry.get_text(),"0");
+	  screenManager.processEvent(HMIEvents::ADD_NEW_MEMBER_SELECT_CONFIRM,(void*)&member);
+	}
+	
 }
 
