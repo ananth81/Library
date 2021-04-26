@@ -8,7 +8,7 @@
 #define UNUSED_DATE "0000/00/00"
 
 std::vector<libBook> LibSQLiteDB::bookVec;
-
+std::vector<libMember> LibSQLiteDB::memberVec;
 LibSQLiteDB::LibSQLiteDB():db(NULL)
 {
    char *zErrMsg = 0;
@@ -77,10 +77,18 @@ int LibSQLiteDB::libBookcallback(void *data, int argc, char **argv, char **azCol
 int LibSQLiteDB::libMembercallback(void *data, int argc, char **argv, char **azColName)
 {
    int i;
+   libMember member;
    for(i = 0; i<argc; i++) {
-      printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+      if(std::string(azColName[i]) == "NAME")
+       member.setName(std::string(argv[i]));
+      if(std::string(azColName[i]) == "ADDRESS")
+       member.setAddress(std::string(argv[i]));
+      if(std::string(azColName[i]) == "rowid") 
+       member.setMemberID(std::string(argv[i]));
+      
    }
-   *(bool*)data=true;
+   memberVec.push_back(member);
+   
    return 0;
 }
 
@@ -114,7 +122,7 @@ int LibSQLiteDB::RemoveMember(libMember& member)
    bool error = true;
    char *zErrMsg = NULL;
    char *sqlcommand =NULL;
-   if(0 < asprintf(&sqlcommand,"DELETE FROM MEMBERS WHERE rowid=%lu  ;",member.getMemberID()))
+   if(0 < asprintf(&sqlcommand,"DELETE FROM MEMBERS WHERE rowid=%s  ;",member.getMemberID().c_str()))
    {
       int rc=sqlite3_exec(db,sqlcommand,&libMembercallback,0,&zErrMsg);
     
@@ -213,8 +221,8 @@ int LibSQLiteDB::IssueBook(libBook& libbook,libMember& member)
    char *zErrMsg = NULL;
    char *sqlcommand =NULL;
    if(0 < asprintf(&sqlcommand,"UPDATE LIBRARYBOOKS \
-                                SET MEMBERID = %lu \
-                                WHERE rowid = %s ;",member.getMemberID(),libbook.getSerialNo().c_str()))
+                                SET MEMBERID = %s \
+                                WHERE rowid = %s ;",member.getMemberID().c_str(),libbook.getSerialNo().c_str()))
    {
       int rc=sqlite3_exec(db,sqlcommand,&libBookcallback,0,&zErrMsg);
     

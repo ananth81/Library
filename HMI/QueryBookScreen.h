@@ -29,6 +29,7 @@ private:
                        Title("Title:"),
 	                   Author("Author:"),
 	                   mColumns(NULL),
+                       memberColptr(NULL),
 	                   box(Gtk::Orientation::ORIENTATION_VERTICAL)
                        
 	                   
@@ -73,6 +74,35 @@ private:
           bool onSelectionButtonsRenderded;
        };
 	   
+       class MemberColumns : public Gtk::TreeModel::ColumnRecord
+       {
+          public:
+
+          MemberColumns():vbox(Gtk::Orientation::ORIENTATION_VERTICAL),
+                         buttonOK("OK"),
+                         buttonCancel("Cancel"),
+                         dialog("Member Select")
+	                   
+             { add(m_memberID); 
+			   add(m_memberName);
+			   add(m_memberAddress);
+             }
+
+          Gtk::TreeModelColumn<Glib::ustring> m_memberID;
+          Gtk::TreeModelColumn<Glib::ustring> m_memberName;
+          Gtk::TreeModelColumn<Glib::ustring> m_memberAddress;
+          Gtk::ScrolledWindow m_ScrolledWindow;
+          Gtk::TreeView m_TreeView;
+          Glib::RefPtr<Gtk::ListStore> m_refTreeModel;
+          Glib::RefPtr<Gtk::TreeSelection> TreeView_TreeSelection;
+          Gtk::Box    vbox;
+          Gtk::Button buttonOK;
+          Gtk::Button buttonCancel;
+          Gtk::Dialog dialog;
+          
+          
+       };
+	   
        Gtk::Button buttonQueryBook;
        ModelColumns *mColumns;
        
@@ -83,7 +113,7 @@ private:
        Gtk::Button buttonBack;
        Gtk::Grid   grid;
        Gtk::Box    box;
-       
+       MemberColumns *memberColptr;
        
        
    };

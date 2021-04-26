@@ -25,7 +25,8 @@ class LibSQLiteDB {
    static int libBookcallback(void *data, int argc, char **argv, char **azColName);
    static int libMembercallback(void *data, int argc, char **argv, char **azColName); 
    static std::vector<libBook> bookVec;
-
+   static std::vector<libMember> memberVec;
+   
 
 };
 

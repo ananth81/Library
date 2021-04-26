@@ -4,19 +4,23 @@
 
 class libMember {
     public:
-    typedef unsigned long MemberID; 
-    libMember(std::string name , std::string address , MemberID ID):mName(name),
+    libMember(){}
+    libMember(std::string name , std::string address , std::string ID):mName(name),
                                                                     mAddress(address),
                                                                     mId(ID)
     {}
     std::string& getName() { return mName;}
     std::string& getAddress() { return mAddress;}
-    MemberID& getMemberID(){ return mId;}
+    std::string getMemberID(){ return mId;}
+    
+    void setName(std::string name) { mName=name;}
+    void setAddress(std::string address) { mAddress=address;}
+    void setMemberID(std::string ID){ mId=ID;}
     
     private:
       std::string mName;
       std::string mAddress;
-      MemberID mId;
+      std::string mId;
    
     
 

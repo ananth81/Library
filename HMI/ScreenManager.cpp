@@ -88,6 +88,8 @@ void ScreenManager::processEvent(HMIEvents::HMIEvents_t event , void *ptr)
       }  
       break;
       
+      break;
+      
       case HMIEvents::PREVIOUS_SCREEN:
       {
          returnToPreviousScreen();

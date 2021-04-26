@@ -94,6 +94,26 @@ void QueryBookScreen::UpdateDataToHMI(HMIEvents::HMIEvents_t event, void* data)
       
       window.show_all_children();
   }
+  else if(HMIEvents::HMI_UPDATE_MEMBER_LIST == event)
+  {
+       ScreenWidgetPtr->memberColptr= new ScreenWidgets::MemberColumns();
+       
+       ScreenWidgetPtr->box.pack_start(ScreenWidgetPtr->memberColptr->dialog);
+    
+       ScreenWidgetPtr->memberColptr->dialog.add(ScreenWidgetPtr->memberColptr->vbox);
+       ScreenWidgetPtr->memberColptr->m_ScrolledWindow.add(ScreenWidgetPtr->memberColptr->m_TreeView);
+
+       //Only show the scrollbars when they are necessary:    
+       ScreenWidgetPtr->memberColptr->m_ScrolledWindow.set_policy(Gtk::PolicyType::POLICY_AUTOMATIC, Gtk::PolicyType::POLICY_AUTOMATIC);
+     
+       //Create the Tree model:
+       ScreenWidgetPtr->memberColptr->m_refTreeModel = Gtk::ListStore::create(*(ScreenWidgetPtr->memberColptr));
+       ScreenWidgetPtr->memberColptr->m_TreeView.set_model(ScreenWidgetPtr->memberColptr->m_refTreeModel);
+       ScreenWidgetPtr->memberColptr->vbox.pack_start(ScreenWidgetPtr->memberColptr->m_ScrolledWindow);
+      
+       window.show_all_children();
+
+  }
 
 }
 
@@ -117,6 +137,7 @@ void QueryBookScreen::on_button_clicked(const Glib::ustring& data)
     }
     else if(data == "BookIssue")
     {
+       screenManager.processEvent(HMIEvents::HMI_UPDATE_ISSUE_BOOK_SELECTED,NULL);
     }
     else if(data == "BookReturn")
     {
