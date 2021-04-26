@@ -25,15 +25,16 @@ class libBook: public Book
     std::string& getDateOfIssue(void) { return mdoi;}
     std::string& getDateOfReturn(void) { return mdor;}
     std::string& getMemberID(void) { return memberID;}
-   
-    void SetisReference(std::string ref)
-    {  misReference=ref;}
+    std::string& getSerialNo(void) { return mserialNo;} 
+    std::string& getMemberName(void) { return memberName;}
+    void SetisReference(std::string ref) {  misReference=ref;}
     void setDateOfIssue(std::string doi) { mdoi=doi;}
     void setDateOfReturn(std::string dor) { mdor=dor;}
     void setMemberID(std::string memID) { memberID=memID;}
     void setSerialNo(std::string Serial) { mserialNo = Serial;}
+    void setMemberName(std::string Name) { memberName = Name;}
     
-    std::string& getSerialNo(void) { return mserialNo;} 
+    
        
  private:
    std::string misReference;
@@ -41,6 +42,7 @@ class libBook: public Book
    std::string mdor;
    std::string mserialNo;
    std::string memberID;
+   std::string memberName;
 };
 
 

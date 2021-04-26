@@ -74,6 +74,7 @@ void QueryBookScreen::UpdateDataToHMI(HMIEvents::HMIEvents_t event, void* data)
 	    row[ScreenWidgetPtr->mColumns->doi] = (*iter).getDateOfIssue()==NULL_DATE?"N/A":(*iter).getDateOfIssue();
 	    row[ScreenWidgetPtr->mColumns->dor] = (*iter).getDateOfReturn()==NULL_DATE?"N/A":(*iter).getDateOfReturn();
 	    row[ScreenWidgetPtr->mColumns->memberID] = (*iter).getMemberID()=="0"?"N/A":(*iter).getMemberID();
+	    row[ScreenWidgetPtr->mColumns->memberName] = (*iter).getMemberName();
 	    row[ScreenWidgetPtr->mColumns->serial] = (*iter).getSerialNo();
       }
 	  
@@ -85,7 +86,7 @@ void QueryBookScreen::UpdateDataToHMI(HMIEvents::HMIEvents_t event, void* data)
 	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("Date Of Issue",ScreenWidgetPtr->mColumns->doi);
 	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("Date Of Return", ScreenWidgetPtr->mColumns->dor);
 	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("MemberID",ScreenWidgetPtr->mColumns->memberID);
-	  
+	  ScreenWidgetPtr->mColumns->m_TreeView.append_column("Member Name",ScreenWidgetPtr->mColumns->memberName);
 	  ScreenWidgetPtr->mColumns->TreeView_TreeSelection=ScreenWidgetPtr->mColumns->m_TreeView.get_selection();
 	  ScreenWidgetPtr->mColumns->TreeView_TreeSelection->signal_changed().connect(sigc::mem_fun(*this,
       &QueryBookScreen::on_selection_changed));
@@ -98,10 +99,11 @@ void QueryBookScreen::UpdateDataToHMI(HMIEvents::HMIEvents_t event, void* data)
   {
       std::vector<libMember> *ptr=(std::vector<libMember> *)data;
 	  std::vector<libMember>::iterator iter = ptr->begin();
-	  
-	  
+	  std::cout<< "Creating Dialog box"<<std::endl;
+	  if(ScreenWidgetPtr->memberColptr)
+	    delete ScreenWidgetPtr->memberColptr;
       ScreenWidgetPtr->memberColptr= new ScreenWidgets::MemberColumns();
-      ScreenWidgetPtr->box.pack_start(ScreenWidgetPtr->memberColptr->dialog);
+      
       ScreenWidgetPtr->memberColptr->dialog.set_default_size(300,70);
       
       ScreenWidgetPtr->memberColptr->dialog.get_content_area()->pack_start(ScreenWidgetPtr->memberColptr->m_ScrolledWindow);
@@ -127,14 +129,35 @@ void QueryBookScreen::UpdateDataToHMI(HMIEvents::HMIEvents_t event, void* data)
     
       ScreenWidgetPtr->memberColptr->TreeView_TreeSelection=ScreenWidgetPtr->memberColptr->m_TreeView.get_selection();
 	  ScreenWidgetPtr->memberColptr->TreeView_TreeSelection->signal_changed().connect(sigc::mem_fun(*this,
-      &QueryBookScreen::on_selection_changed));
+      &QueryBookScreen::on_member_selection_changed));
       
       ScreenWidgetPtr->mColumns->m_TreeView.expand_all();
-      window.show_all_children();
+      ScreenWidgetPtr->memberColptr->dialog.show();
+      ScreenWidgetPtr->memberColptr->dialog.show_all_children();
 
   }
 
 }
+void QueryBookScreen::on_member_selection_changed(void)
+{
+	if(!ScreenWidgetPtr->memberColptr->onSelectionButtonsRenderded)
+	{
+	  Glib::RefPtr< Gtk::TreeModel > MemberTreeModel=ScreenWidgetPtr->memberColptr->TreeView_TreeSelection->get_model();
+      Gtk::TreeModel::iterator iter=ScreenWidgetPtr->memberColptr->TreeView_TreeSelection->get_selected(MemberTreeModel);
+      Gtk::TreeModel::Row row = *iter;
+      ScreenWidgetPtr->memberColptr->dialog.get_content_area()->pack_start(ScreenWidgetPtr->memberColptr->buttonOK);
+      ScreenWidgetPtr->memberColptr->dialog.get_content_area()->pack_start(ScreenWidgetPtr->memberColptr->buttonCancel);   
+      ScreenWidgetPtr->memberColptr->buttonOK.signal_clicked().connect(sigc::bind(sigc::mem_fun(*this,
+           &QueryBookScreen::on_button_clicked),"MemberSelectOK"));
+      ScreenWidgetPtr->memberColptr->buttonCancel.signal_clicked().connect(sigc::bind(sigc::mem_fun(*this,
+           &QueryBookScreen::on_button_clicked),"MemberSelectCancel"));
+      ScreenWidgetPtr->memberColptr->onSelectionButtonsRenderded=true;
+      
+      ScreenWidgetPtr->memberColptr->dialog.show_all_children();	
+   }
+   
+}
+
 
 QueryBookScreen::~QueryBookScreen()
 {
@@ -173,6 +196,30 @@ void QueryBookScreen::on_button_clicked(const Glib::ustring& data)
        
        
     }
+    else if (data =="MemberSelectOK")
+    {
+	   Glib::RefPtr< Gtk::TreeModel > TreeModel=ScreenWidgetPtr->mColumns->TreeView_TreeSelection->get_model();
+       Gtk::TreeModel::iterator iter=ScreenWidgetPtr->mColumns->TreeView_TreeSelection->get_selected(TreeModel);
+       Gtk::TreeModel::Row row = *iter;
+       libBook book;
+       book.setSerialNo(  row.get_value(ScreenWidgetPtr->mColumns->serial).c_str());
+       
+       TreeModel=ScreenWidgetPtr->memberColptr->TreeView_TreeSelection->get_model();
+       iter=ScreenWidgetPtr->memberColptr->TreeView_TreeSelection->get_selected(TreeModel);
+       row = *iter;
+       book.setMemberID(row.get_value(ScreenWidgetPtr->memberColptr->m_memberID).c_str());
+       book.setMemberName(row.get_value(ScreenWidgetPtr->memberColptr->m_memberName).c_str());
+       screenManager.processEvent(HMIEvents::ISSUE_BOOK_TO_MEMBER,(void*)&book);
+       ScreenWidgetPtr->memberColptr->dialog.hide();
+	   
+	   window.show_all_children();
+	}
+	else if(data == "MemberSelectCancel")
+	{
+		ScreenWidgetPtr->memberColptr->dialog.hide();
+		
+		window.show_all_children();
+	}
 }
 
 void QueryBookScreen::on_selection_changed(void)
@@ -202,6 +249,7 @@ void QueryBookScreen::on_selection_changed(void)
                   &QueryBookScreen::on_button_clicked),"BookRemove"));
       
            ScreenWidgetPtr->mColumns->onSelectionButtonsRenderded=true;
+           
         }
         window.show_all_children();
     }

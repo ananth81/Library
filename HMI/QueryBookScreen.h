@@ -22,6 +22,7 @@ private:
   //Signal handlers:
   void on_button_clicked(const Glib::ustring& data);
   void on_selection_changed(void);
+  void on_member_selection_changed(void);
   class ScreenWidgets {
 	   public:
 	   ScreenWidgets():buttonQueryBook("QueryBook"),
@@ -53,6 +54,7 @@ private:
 			   add(dor);
 			   add(serial);
 			   add(memberID);
+			   add(memberName);
 			   }
 
           Gtk::TreeModelColumn<Glib::ustring> m_title;
@@ -62,6 +64,7 @@ private:
           Gtk::TreeModelColumn<Glib::ustring> dor;
           Gtk::TreeModelColumn<Glib::ustring> serial;
           Gtk::TreeModelColumn<Glib::ustring> memberID;
+          Gtk::TreeModelColumn<Glib::ustring> memberName;
           Gtk::ScrolledWindow m_ScrolledWindow;
           Gtk::TreeView m_TreeView;
           Glib::RefPtr<Gtk::ListStore> m_refTreeModel;
@@ -81,7 +84,8 @@ private:
           MemberColumns():vbox(Gtk::Orientation::ORIENTATION_VERTICAL),
                          buttonOK("OK"),
                          buttonCancel("Cancel"),
-                         dialog("Member Select")
+                         dialog("Member Select"),
+                         onSelectionButtonsRenderded(false)
 	                   
              { add(m_memberID); 
 			   add(m_memberName);
@@ -98,8 +102,9 @@ private:
           Gtk::Box    vbox;
           Gtk::Button buttonOK;
           Gtk::Button buttonCancel;
-          Gtk::Dialog dialog;
           
+          Gtk::Dialog dialog;
+          bool onSelectionButtonsRenderded;
           
        };
 	   

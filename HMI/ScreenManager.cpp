@@ -56,7 +56,11 @@ void ScreenManager::processEvent(HMIEvents::HMIEvents_t event , void *ptr)
 	  }
          
       break;
-   
+      case HMIEvents::ISSUE_BOOK_TO_MEMBER:
+      {
+		 database.IssueBook(*(libBook*)ptr);
+	  }
+	  break;
       case HMIEvents::REMOVE_BOOK_SELECT:
       {
          updateScreen(HMISCREENS::REMOVEBOOK_SCREEN);

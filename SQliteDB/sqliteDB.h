@@ -19,7 +19,7 @@ class LibSQLiteDB {
      int RemoveBook(libBook&);
      std::vector<libBook>&  QueryBookAvailability(libBook&);
      std::vector<libMember>& getMemberList(void);
-     int IssueBook(libBook&,libMember&);
+     int IssueBook(libBook&);
      int ReturnBook(libBook& , libMember&);
     private:
       sqlite3 *db;
