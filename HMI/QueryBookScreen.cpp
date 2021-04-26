@@ -96,22 +96,41 @@ void QueryBookScreen::UpdateDataToHMI(HMIEvents::HMIEvents_t event, void* data)
   }
   else if(HMIEvents::HMI_UPDATE_MEMBER_LIST == event)
   {
-       ScreenWidgetPtr->memberColptr= new ScreenWidgets::MemberColumns();
-       
-       ScreenWidgetPtr->box.pack_start(ScreenWidgetPtr->memberColptr->dialog);
-    
-       ScreenWidgetPtr->memberColptr->dialog.add(ScreenWidgetPtr->memberColptr->vbox);
-       ScreenWidgetPtr->memberColptr->m_ScrolledWindow.add(ScreenWidgetPtr->memberColptr->m_TreeView);
-
-       //Only show the scrollbars when they are necessary:    
-       ScreenWidgetPtr->memberColptr->m_ScrolledWindow.set_policy(Gtk::PolicyType::POLICY_AUTOMATIC, Gtk::PolicyType::POLICY_AUTOMATIC);
-     
-       //Create the Tree model:
-       ScreenWidgetPtr->memberColptr->m_refTreeModel = Gtk::ListStore::create(*(ScreenWidgetPtr->memberColptr));
-       ScreenWidgetPtr->memberColptr->m_TreeView.set_model(ScreenWidgetPtr->memberColptr->m_refTreeModel);
-       ScreenWidgetPtr->memberColptr->vbox.pack_start(ScreenWidgetPtr->memberColptr->m_ScrolledWindow);
+      std::vector<libMember> *ptr=(std::vector<libMember> *)data;
+	  std::vector<libMember>::iterator iter = ptr->begin();
+	  
+	  
+      ScreenWidgetPtr->memberColptr= new ScreenWidgets::MemberColumns();
+      ScreenWidgetPtr->box.pack_start(ScreenWidgetPtr->memberColptr->dialog);
+      ScreenWidgetPtr->memberColptr->dialog.set_default_size(300,70);
       
-       window.show_all_children();
+      ScreenWidgetPtr->memberColptr->dialog.get_content_area()->pack_start(ScreenWidgetPtr->memberColptr->m_ScrolledWindow);
+      ScreenWidgetPtr->memberColptr->m_ScrolledWindow.add(ScreenWidgetPtr->memberColptr->m_TreeView);
+      
+      ScreenWidgetPtr->memberColptr->m_refTreeModel = Gtk::ListStore::create(*(ScreenWidgetPtr->memberColptr));
+      ScreenWidgetPtr->memberColptr->m_TreeView.set_model(ScreenWidgetPtr->memberColptr->m_refTreeModel);
+     
+      ScreenWidgetPtr->memberColptr->m_ScrolledWindow.set_policy(Gtk::PolicyType::POLICY_AUTOMATIC, Gtk::PolicyType::POLICY_AUTOMATIC);
+     
+      ScreenWidgetPtr->memberColptr->m_TreeView.append_column("MemberID",ScreenWidgetPtr->memberColptr->m_memberID);
+	  ScreenWidgetPtr->memberColptr->m_TreeView.append_column("Name", ScreenWidgetPtr->memberColptr->m_memberName);
+	  ScreenWidgetPtr->memberColptr->m_TreeView.append_column("Address",ScreenWidgetPtr->memberColptr->m_memberAddress);
+	  
+      for(iter=ptr->begin();iter!=ptr->end(); iter++)
+	  {
+	    auto row = *(ScreenWidgetPtr->memberColptr->m_refTreeModel->append());
+	    row[ScreenWidgetPtr->memberColptr->m_memberID] = (*iter).getMemberID();
+	    row[ScreenWidgetPtr->memberColptr->m_memberName] = (*iter).getName();
+	    row[ScreenWidgetPtr->memberColptr->m_memberAddress] = (*iter).getAddress();
+	    
+      } 
+    
+      ScreenWidgetPtr->memberColptr->TreeView_TreeSelection=ScreenWidgetPtr->memberColptr->m_TreeView.get_selection();
+	  ScreenWidgetPtr->memberColptr->TreeView_TreeSelection->signal_changed().connect(sigc::mem_fun(*this,
+      &QueryBookScreen::on_selection_changed));
+      
+      ScreenWidgetPtr->mColumns->m_TreeView.expand_all();
+      window.show_all_children();
 
   }
 
@@ -137,7 +156,7 @@ void QueryBookScreen::on_button_clicked(const Glib::ustring& data)
     }
     else if(data == "BookIssue")
     {
-       screenManager.processEvent(HMIEvents::HMI_UPDATE_ISSUE_BOOK_SELECTED,NULL);
+       screenManager.processEvent(HMIEvents::ISSUE_BOOK_SELECT_CONFIRM,NULL);
     }
     else if(data == "BookReturn")
     {

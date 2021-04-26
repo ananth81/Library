@@ -138,6 +138,29 @@ int LibSQLiteDB::RemoveMember(libMember& member)
    return error;
 }
 
+
+std::vector<libMember>& LibSQLiteDB::getMemberList(void)
+{
+   bool error = true;
+   char *zErrMsg = NULL;
+   char *sqlcommand =NULL;
+   if(0 < asprintf(&sqlcommand,"SELECT rowid , * FROM MEMBERS ;"))
+   {
+      memberVec.clear();
+      int rc=sqlite3_exec(db,sqlcommand,&libMembercallback,0,&zErrMsg);
+    
+      if( rc != SQLITE_OK ){
+            std::cout << "SQL error:" << zErrMsg;
+            sqlite3_free(zErrMsg);
+       } else {
+            error = false;
+            std::cout<<"Member Removed successfully"<<std::endl;
+       }
+       free(sqlcommand);
+   }
+   return memberVec;
+}
+
 int LibSQLiteDB::AddNewBook(libBook& book)
 {
    bool error = true;

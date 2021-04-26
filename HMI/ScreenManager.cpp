@@ -46,6 +46,14 @@ void ScreenManager::processEvent(HMIEvents::HMIEvents_t event , void *ptr)
       break;
       
       case HMIEvents::ISSUE_BOOK_SELECT_CONFIRM:
+      {
+		database.getMemberList();
+		std::map<HMISCREENS::HMIScreens_t,IScreen*>::iterator iterCurrentScreen=screenMap.find(HMISCREENS::QUERYBOOK_SCREEN);
+		if(screenMap.end() != iterCurrentScreen )
+		(iterCurrentScreen->second)->UpdateDataToHMI(HMIEvents::HMI_UPDATE_MEMBER_LIST, 
+		                          (void*)&(database.getMemberList()));
+		  
+	  }
          
       break;
    

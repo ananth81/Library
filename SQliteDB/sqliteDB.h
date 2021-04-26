@@ -18,6 +18,7 @@ class LibSQLiteDB {
      int AddNewBook(libBook&);
      int RemoveBook(libBook&);
      std::vector<libBook>&  QueryBookAvailability(libBook&);
+     std::vector<libMember>& getMemberList(void);
      int IssueBook(libBook&,libMember&);
      int ReturnBook(libBook& , libMember&);
     private:
