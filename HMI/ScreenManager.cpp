@@ -42,7 +42,9 @@ void ScreenManager::processEvent(HMIEvents::HMIEvents_t event , void *ptr)
       break;
       
       case HMIEvents::RETURN_BOOK_SELECT_CONFIRM:
-         
+      {
+		 database.ReturnBook(*(libBook*)ptr); 
+	  }
       break;
       
       case HMIEvents::ISSUE_BOOK_SELECT_CONFIRM:

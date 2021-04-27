@@ -124,7 +124,7 @@ int LibSQLiteDB::RemoveMember(libMember& member)
    bool error = true;
    char *zErrMsg = NULL;
    char *sqlcommand =NULL;
-   if(0 < asprintf(&sqlcommand,"DELETE FROM MEMBERS WHERE rowid=%s  ;",member.getMemberID().c_str()))
+   if(0 < asprintf(&sqlcommand,"DELETE FROM MEMBERS WHERE rowid= '%s'  ;",member.getMemberID().c_str()))
    {
       int rc=sqlite3_exec(db,sqlcommand,&libMembercallback,0,&zErrMsg);
     
@@ -246,7 +246,7 @@ int LibSQLiteDB::IssueBook(libBook& libbook)
    bool error=true;
    char *zErrMsg = NULL;
    char *sqlcommand =NULL;
-   std::cout <<"issue book"<<libbook.getMemberID().c_str() << " " <<     libbook.getMemberName().c_str() << "  " <<          libbook.getSerialNo().c_str();
+   
    if(0 < asprintf(&sqlcommand,"UPDATE LIBRARYBOOKS \
                                 SET MEMBERNAME = '%s', \
                                     MEMBERID = '%s'\
@@ -269,15 +269,15 @@ int LibSQLiteDB::IssueBook(libBook& libbook)
    return error;
 }
 
-int LibSQLiteDB::ReturnBook(libBook& libbook, libMember& member)
+int LibSQLiteDB::ReturnBook(libBook& libbook)
 {
    bool error=true;
    char *zErrMsg = NULL;
    char *sqlcommand =NULL;
    if(0 < asprintf(&sqlcommand,"UPDATE LIBRARYBOOKS \
-                                SET MEMBERID = %lu \
-                                SET MEMBERNAME = %s \
-                                WHERE rowid = %s ;",UNUSED_MEMBERID,UNISSUED_NAME,libbook.getSerialNo().c_str()))
+                                SET MEMBERID = %lu ,\
+                                    MEMBERNAME = '%s' \
+                                WHERE rowid = '%s' ;",UNUSED_MEMBERID,UNISSUED_NAME,libbook.getSerialNo().c_str()))
    {
       int rc=sqlite3_exec(db,sqlcommand,&libBookcallback,0,&zErrMsg);
     

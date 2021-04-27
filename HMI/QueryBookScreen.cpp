@@ -183,6 +183,13 @@ void QueryBookScreen::on_button_clicked(const Glib::ustring& data)
     }
     else if(data == "BookReturn")
     {
+	   Glib::RefPtr< Gtk::TreeModel > BookTreeModel=ScreenWidgetPtr->mColumns->TreeView_TreeSelection->get_model();
+       Gtk::TreeModel::iterator iter=ScreenWidgetPtr->mColumns->TreeView_TreeSelection->get_selected(BookTreeModel);
+       Gtk::TreeModel::Row row = *iter;
+       libBook book;
+       book.setSerialNo(row.get_value(ScreenWidgetPtr->mColumns->serial).c_str());
+       screenManager.processEvent(HMIEvents::RETURN_BOOK_SELECT_CONFIRM,(void*)&book);
+		
     }
     else if(data == "BookRemove")
     {

@@ -20,7 +20,7 @@ class LibSQLiteDB {
      std::vector<libBook>&  QueryBookAvailability(libBook&);
      std::vector<libMember>& getMemberList(void);
      int IssueBook(libBook&);
-     int ReturnBook(libBook& , libMember&);
+     int ReturnBook(libBook&);
     private:
       sqlite3 *db;
    static int libBookcallback(void *data, int argc, char **argv, char **azColName);
