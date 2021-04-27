@@ -246,12 +246,13 @@ int LibSQLiteDB::IssueBook(libBook& libbook)
    bool error=true;
    char *zErrMsg = NULL;
    char *sqlcommand =NULL;
+   std::cout <<"issue book"<<libbook.getMemberID().c_str() << " " <<     libbook.getMemberName().c_str() << "  " <<          libbook.getSerialNo().c_str();
    if(0 < asprintf(&sqlcommand,"UPDATE LIBRARYBOOKS \
-                                SET MEMBERID = %s , \
-                                SET MEMBERNAME = %s \
-                                WHERE rowid = %s ;",
-                                libbook.getMemberID().c_str(),
+                                SET MEMBERNAME = '%s', \
+                                    MEMBERID = '%s'\
+                                WHERE rowid = '%s' ;",
                                 libbook.getMemberName().c_str(),
+                                libbook.getMemberID().c_str(),
                                 libbook.getSerialNo().c_str()))
    {
       int rc=sqlite3_exec(db,sqlcommand,&libBookcallback,0,&zErrMsg);

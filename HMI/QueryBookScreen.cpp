@@ -198,6 +198,7 @@ void QueryBookScreen::on_button_clicked(const Glib::ustring& data)
     }
     else if (data =="MemberSelectOK")
     {
+	   
 	   Glib::RefPtr< Gtk::TreeModel > TreeModel=ScreenWidgetPtr->mColumns->TreeView_TreeSelection->get_model();
        Gtk::TreeModel::iterator iter=ScreenWidgetPtr->mColumns->TreeView_TreeSelection->get_selected(TreeModel);
        Gtk::TreeModel::Row row = *iter;
