@@ -15,27 +15,27 @@ public:
   virtual ~RemoveMemberScreen();
 
 protected:
-  
+
 private:
   Gtk::Window& window;
   //Signal handlers:
   void on_button_clicked(const Glib::ustring& data);
   class ScreenWidgets {
-	   public:
-	   ScreenWidgets():buttonRemoveMember("Remove Member"),
-	                   buttonBack("Back"),
-	                   Name("Name:")
-	                   
-	                  
-	   {}
-	   virtual ~ScreenWidgets(){}
-	   
+       public:
+       ScreenWidgets():buttonRemoveMember("Remove Member"),
+                       buttonBack("Back"),
+                       Name("Name:")
+
+
+       {}
+       virtual ~ScreenWidgets(){}
+
        Gtk::Button buttonRemoveMember;
        Gtk::Label  Name;
        Gtk::Entry  NameEntry;
        Gtk::Button buttonBack;
        Gtk::Grid   grid;
-       
+
    };
    ScreenWidgets *ScreenWidgetPtr;
 };

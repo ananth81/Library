@@ -6,12 +6,12 @@
 class libBook: public Book
 {
   public:
-    
+
     libBook()
     {
     }
-    libBook(std::string Title , 
-             std::string Author ,  
+    libBook(std::string Title ,
+             std::string Author ,
              std::string isReference,
              std::string doi,
              std::string dor):Book(Title,Author),
@@ -19,13 +19,13 @@ class libBook: public Book
                               mdoi(doi),
                               mdor(dor)
      {}
-     
+
     std::string& isReference(void)
     { return misReference;}
     std::string& getDateOfIssue(void) { return mdoi;}
     std::string& getDateOfReturn(void) { return mdor;}
     std::string& getMemberID(void) { return memberID;}
-    std::string& getSerialNo(void) { return mserialNo;} 
+    std::string& getSerialNo(void) { return mserialNo;}
     std::string& getMemberName(void) { return memberName;}
     void SetisReference(std::string ref) {  misReference=ref;}
     void setDateOfIssue(std::string doi) { mdoi=doi;}
@@ -33,9 +33,9 @@ class libBook: public Book
     void setMemberID(std::string memID) { memberID=memID;}
     void setSerialNo(std::string Serial) { mserialNo = Serial;}
     void setMemberName(std::string Name) { memberName = Name;}
-    
-    
-       
+
+
+
  private:
    std::string misReference;
    std::string mdoi;

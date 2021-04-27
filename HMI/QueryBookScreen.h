@@ -16,7 +16,7 @@ public:
   virtual ~QueryBookScreen();
 
 protected:
-  
+
 private:
   Gtk::Window& window;
   //Signal handlers:
@@ -24,20 +24,20 @@ private:
   void on_selection_changed(void);
   void on_member_selection_changed(void);
   class ScreenWidgets {
-	   public:
-	   ScreenWidgets():buttonQueryBook("QueryBook"),
-	                   buttonBack("Back"),
+       public:
+       ScreenWidgets():buttonQueryBook("QueryBook"),
+                       buttonBack("Back"),
                        Title("Title:"),
-	                   Author("Author:"),
-	                   mColumns(NULL),
+                       Author("Author:"),
+                       mColumns(NULL),
                        memberColptr(NULL),
-	                   box(Gtk::Orientation::ORIENTATION_VERTICAL)
-                       
-	                   
-	                  
-	   {}
-	   virtual ~ScreenWidgets(){}
-	   class ModelColumns : public Gtk::TreeModel::ColumnRecord
+                       box(Gtk::Orientation::ORIENTATION_VERTICAL)
+
+
+
+       {}
+       virtual ~ScreenWidgets(){}
+       class ModelColumns : public Gtk::TreeModel::ColumnRecord
        {
           public:
 
@@ -46,16 +46,16 @@ private:
                          buttonReturn("Return Book"),
                          buttonRemove("DeleteBook"),
                          hbox(Gtk::Orientation::ORIENTATION_HORIZONTAL)
-	                   
-             { add(m_title); 
-			   add(m_author); 
-			   add(m_reference); 
-			   add(doi);
-			   add(dor);
-			   add(serial);
-			   add(memberID);
-			   add(memberName);
-			   }
+
+             { add(m_title);
+               add(m_author);
+               add(m_reference);
+               add(doi);
+               add(dor);
+               add(serial);
+               add(memberID);
+               add(memberName);
+               }
 
           Gtk::TreeModelColumn<Glib::ustring> m_title;
           Gtk::TreeModelColumn<Glib::ustring> m_author;
@@ -73,10 +73,10 @@ private:
           Gtk::Button buttonReturn;
           Gtk::Button buttonIssue;
           Gtk::Button buttonRemove;
-          
+
           bool onSelectionButtonsRenderded;
        };
-	   
+
        class MemberColumns : public Gtk::TreeModel::ColumnRecord
        {
           public:
@@ -86,10 +86,10 @@ private:
                          buttonCancel("Cancel"),
                          dialog("Member Select"),
                          onSelectionButtonsRenderded(false)
-	                   
-             { add(m_memberID); 
-			   add(m_memberName);
-			   add(m_memberAddress);
+
+             { add(m_memberID);
+               add(m_memberName);
+               add(m_memberAddress);
              }
 
           Gtk::TreeModelColumn<Glib::ustring> m_memberID;
@@ -102,15 +102,15 @@ private:
           Gtk::Box    vbox;
           Gtk::Button buttonOK;
           Gtk::Button buttonCancel;
-          
+
           Gtk::Dialog dialog;
           bool onSelectionButtonsRenderded;
-          
+
        };
-	   
+
        Gtk::Button buttonQueryBook;
        ModelColumns *mColumns;
-       
+
        Gtk::Label  Title;
        Gtk::Entry  TitleEntry;
        Gtk::Label  Author;
@@ -119,8 +119,8 @@ private:
        Gtk::Grid   grid;
        Gtk::Box    box;
        MemberColumns *memberColptr;
-       
-       
+
+
    };
    ScreenWidgets *ScreenWidgetPtr;
 };

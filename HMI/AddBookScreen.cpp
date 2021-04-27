@@ -5,10 +5,10 @@
 AddBookScreen::AddBookScreen(ScreenManager& ScreenMgr,Gtk::Window& win)
 : Screen(ScreenMgr),
   window(win),
-  ScreenWidgetPtr(NULL) 
+  ScreenWidgetPtr(NULL)
 {
-  screenManager.registerScreen(HMISCREENS::ADDNEWBOOK_SCREEN,this); 
-  
+  screenManager.registerScreen(HMISCREENS::ADDNEWBOOK_SCREEN,this);
+
 }
 void AddBookScreen::DrawScreen(void)
 {
@@ -18,11 +18,11 @@ void AddBookScreen::DrawScreen(void)
               &AddBookScreen::on_button_clicked),"AddBook"));
   ScreenWidgetPtr->buttonBack.signal_clicked().connect(sigc::bind(sigc::mem_fun(*this,
               &AddBookScreen::on_button_clicked),"Back"));
-              
-              
-  
+
+
+
   window.add(ScreenWidgetPtr->grid);
-  
+
   ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->Title,0,0);
   ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->TitleEntry,1,0);
   ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->Author,0,1);
@@ -32,17 +32,17 @@ void AddBookScreen::DrawScreen(void)
   ScreenWidgetPtr->m_Combo.append("No");
   ScreenWidgetPtr->m_Combo.append("Yes");
   ScreenWidgetPtr->m_Combo.set_active(0);
-  
+
   ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->buttonAddBook,1,3);
   ScreenWidgetPtr->grid.attach(ScreenWidgetPtr->buttonBack,1,4);
   window.show_all_children();
- 
+
 }
 void AddBookScreen::ClearScreen(void)
 {
   if(ScreenWidgetPtr)
       delete ScreenWidgetPtr;
-  window.remove();	
+  window.remove();
 }
 
 AddBookScreen::~AddBookScreen()
@@ -51,8 +51,8 @@ AddBookScreen::~AddBookScreen()
 
 void AddBookScreen::on_button_clicked(const Glib::ustring& data)
 {
-	if(data == "Back")
-	  screenManager.processEvent(HMIEvents::PREVIOUS_SCREEN,NULL);
+    if(data == "Back")
+      screenManager.processEvent(HMIEvents::PREVIOUS_SCREEN,NULL);
     else if( data == "AddBook")
     {
       libBook newBook(ScreenWidgetPtr->TitleEntry.get_text(),
@@ -61,7 +61,7 @@ void AddBookScreen::on_button_clicked(const Glib::ustring& data)
                       NULL_DATE,
                       NULL_DATE
                       );
-      
+
       screenManager.processEvent(HMIEvents::ADD_NEW_BOOK_CONFIRM,(void*)&newBook);
     }
 }

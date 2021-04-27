@@ -16,10 +16,10 @@ LibSQLiteDB::LibSQLiteDB():db(NULL)
 
    if( rc ) {
       std::cout<< "Can't open database:" << sqlite3_errmsg(db) << std::endl;
-      
-   } 
+
+   }
    else {
-       
+
        const char *sqlcommand = "CREATE TABLE  IF NOT EXISTS LIBRARYBOOKS (  \
                                              TITLE TEXT NOT NULL , \
                                              AUTHOR TEXT NOT NULL , \
@@ -28,24 +28,24 @@ LibSQLiteDB::LibSQLiteDB():db(NULL)
                                              MEMBERID INT, \
                                              MEMBERNAME TEXT, \
                                              REFERENCE TEXT);";
-                                             
+
        rc=sqlite3_exec(db,sqlcommand,&libBookcallback,0,&zErrMsg);
-    
+
        if( rc != SQLITE_OK ){
             std::cout << "SQL error: %s\n" << zErrMsg;
             sqlite3_free(zErrMsg);
-       } 
-       
+       }
+
        sqlcommand = "CREATE TABLE  IF NOT EXISTS MEMBERS (  \
                                     NAME TEXT NOT NULL , \
                                     ADDRESS TEXT NOT NULL );";
-                                             
+
        rc=sqlite3_exec(db,sqlcommand,&libBookcallback,0,&zErrMsg);
-    
+
        if( rc != SQLITE_OK ){
             std::cout << "SQL error:" << zErrMsg;
             sqlite3_free(zErrMsg);
-       } 
+       }
    }
 }
 
@@ -59,16 +59,16 @@ int LibSQLiteDB::libBookcallback(void *data, int argc, char **argv, char **azCol
       if(std::string(azColName[i]) == "AUTHOR")
        book.setAuthor(std::string(argv[i]));
       if(std::string(azColName[i]) == "DOI")
-       book.setDateOfIssue(std::string(argv[i])); 
+       book.setDateOfIssue(std::string(argv[i]));
       if(std::string(azColName[i]) == "DOR")
-       book.setDateOfReturn(std::string(argv[i])); 
+       book.setDateOfReturn(std::string(argv[i]));
       if(std::string(azColName[i]) == "MEMBERID")
-       book.setMemberID(argv[i]); 
-      if(std::string(azColName[i]) == "REFERENCE") 
+       book.setMemberID(argv[i]);
+      if(std::string(azColName[i]) == "REFERENCE")
        book.SetisReference(std::string(argv[i]));
-      if(std::string(azColName[i]) == "rowid") 
+      if(std::string(azColName[i]) == "rowid")
        book.setSerialNo(std::string(argv[i]));
-      if(std::string(azColName[i]) == "MEMBERNAME") 
+      if(std::string(azColName[i]) == "MEMBERNAME")
        book.setMemberName(std::string(argv[i]));
    }
    bookVec.push_back(book);
@@ -85,12 +85,12 @@ int LibSQLiteDB::libMembercallback(void *data, int argc, char **argv, char **azC
        member.setName(std::string(argv[i]));
       if(std::string(azColName[i]) == "ADDRESS")
        member.setAddress(std::string(argv[i]));
-      if(std::string(azColName[i]) == "rowid") 
+      if(std::string(azColName[i]) == "rowid")
        member.setMemberID(std::string(argv[i]));
-      
+
    }
    memberVec.push_back(member);
-   
+
    return 0;
 }
 
@@ -102,10 +102,10 @@ int LibSQLiteDB::AddMember(libMember& member)
    char *sqlcommand =NULL;
    if(0 < asprintf(&sqlcommand,"INSERT INTO MEMBERS(NAME,ADDRESS) \
                    VALUES ('%s','%s');",member.getName().c_str(),member.getAddress().c_str()))
-                  
+
    {
       int rc=sqlite3_exec(db,sqlcommand,&libMembercallback,0,&zErrMsg);
-    
+
       if( rc != SQLITE_OK ){
             std::cout << "SQL error:" << zErrMsg;
             sqlite3_free(zErrMsg);
@@ -127,7 +127,7 @@ int LibSQLiteDB::RemoveMember(libMember& member)
    if(0 < asprintf(&sqlcommand,"DELETE FROM MEMBERS WHERE rowid= '%s'  ;",member.getMemberID().c_str()))
    {
       int rc=sqlite3_exec(db,sqlcommand,&libMembercallback,0,&zErrMsg);
-    
+
       if( rc != SQLITE_OK ){
             std::cout << "SQL error:" << zErrMsg;
             sqlite3_free(zErrMsg);
@@ -150,7 +150,7 @@ std::vector<libMember>& LibSQLiteDB::getMemberList(void)
    {
       memberVec.clear();
       int rc=sqlite3_exec(db,sqlcommand,&libMembercallback,0,&zErrMsg);
-    
+
       if( rc != SQLITE_OK ){
             std::cout << "SQL error:" << zErrMsg;
             sqlite3_free(zErrMsg);
@@ -176,15 +176,15 @@ int LibSQLiteDB::AddNewBook(libBook& book)
                                             ,UNISSUED_NAME
                                             ,NULL_DATE
                                             ,NULL_DATE))
-                  
+
    {
       int rc=sqlite3_exec(db,sqlcommand,&libBookcallback,0,&zErrMsg);
-    
+
       if( rc != SQLITE_OK ){
             std::cout << "SQL error:" << zErrMsg;
             sqlite3_free(zErrMsg);
        } else {
-           
+
             error = false;
             std::cout<<"Added New Book successfully"<<std::endl;
        }
@@ -201,7 +201,7 @@ int LibSQLiteDB::RemoveBook(libBook& book)
    if(0 < asprintf(&sqlcommand,"DELETE FROM LIBRARYBOOKS WHERE rowid = %s ;",book.getSerialNo().c_str()))
    {
       int rc=sqlite3_exec(db,sqlcommand,&libBookcallback,0,&zErrMsg);
-    
+
       if( rc != SQLITE_OK ){
             std::cout << "SQL error:" << zErrMsg;
             sqlite3_free(zErrMsg);
@@ -228,7 +228,7 @@ std::vector<libBook>& LibSQLiteDB::QueryBookAvailability(libBook& book)
    {
       bookVec.clear();
       int rc=sqlite3_exec(db,sqlcommand,&libBookcallback,&rowFound,&zErrMsg);
-    
+
       if( rc != SQLITE_OK ){
             std::cout << "SQL error:" << zErrMsg;
             sqlite3_free(zErrMsg);
@@ -246,7 +246,7 @@ int LibSQLiteDB::IssueBook(libBook& libbook)
    bool error=true;
    char *zErrMsg = NULL;
    char *sqlcommand =NULL;
-   
+
    if(0 < asprintf(&sqlcommand,"UPDATE LIBRARYBOOKS \
                                 SET MEMBERNAME = '%s', \
                                     MEMBERID = '%s'\
@@ -256,7 +256,7 @@ int LibSQLiteDB::IssueBook(libBook& libbook)
                                 libbook.getSerialNo().c_str()))
    {
       int rc=sqlite3_exec(db,sqlcommand,&libBookcallback,0,&zErrMsg);
-    
+
       if( rc != SQLITE_OK ){
             std::cout << "SQL error:" << zErrMsg;
             sqlite3_free(zErrMsg);
@@ -280,7 +280,7 @@ int LibSQLiteDB::ReturnBook(libBook& libbook)
                                 WHERE rowid = '%s' ;",UNUSED_MEMBERID,UNISSUED_NAME,libbook.getSerialNo().c_str()))
    {
       int rc=sqlite3_exec(db,sqlcommand,&libBookcallback,0,&zErrMsg);
-    
+
       if( rc != SQLITE_OK ){
             std::cout << "SQL error:" << zErrMsg;
             sqlite3_free(zErrMsg);

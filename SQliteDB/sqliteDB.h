@@ -2,7 +2,7 @@
 #define SQLITEDB_H
 
 #include <vector>
-#include <sqlite3.h> 
+#include <sqlite3.h>
 #include "libbook.h"
 #include "libmember.h"
 
@@ -24,10 +24,10 @@ class LibSQLiteDB {
     private:
       sqlite3 *db;
    static int libBookcallback(void *data, int argc, char **argv, char **azColName);
-   static int libMembercallback(void *data, int argc, char **argv, char **azColName); 
+   static int libMembercallback(void *data, int argc, char **argv, char **azColName);
    static std::vector<libBook> bookVec;
    static std::vector<libMember> memberVec;
-   
+
 
 };
 

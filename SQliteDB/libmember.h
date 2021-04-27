@@ -12,17 +12,17 @@ class libMember {
     std::string& getName() { return mName;}
     std::string& getAddress() { return mAddress;}
     std::string getMemberID(){ return mId;}
-    
+
     void setName(std::string name) { mName=name;}
     void setAddress(std::string address) { mAddress=address;}
     void setMemberID(std::string ID){ mId=ID;}
-    
+
     private:
       std::string mName;
       std::string mAddress;
       std::string mId;
-   
-    
+
+
 
 };
 

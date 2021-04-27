@@ -8,15 +8,15 @@
 class Screen : public IScreen
 {
    public:
-      
+
       Screen(ScreenManager& screenMgr):screenManager(screenMgr)
       {
       }
      virtual ~Screen(){}
    protected:
       ScreenManager& screenManager;
-      
+
 };
-      
-      
+
+
 #endif

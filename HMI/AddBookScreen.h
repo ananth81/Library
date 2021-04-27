@@ -15,23 +15,23 @@ public:
   virtual ~AddBookScreen();
 
 protected:
-  
+
 private:
   Gtk::Window& window;
   //Signal handlers:
   void on_button_clicked(const Glib::ustring& data);
   class ScreenWidgets {
-	   public:
-	   ScreenWidgets():buttonAddBook("AddBook"),
-	                   buttonBack("Back"),
-	                   Title("Title:"),
-	                   Author("Author:"),
-	                   IsReference("Reference Book:")
-	                   
-	                  
-	   {}
-	   virtual ~ScreenWidgets(){}
-	   
+       public:
+       ScreenWidgets():buttonAddBook("AddBook"),
+                       buttonBack("Back"),
+                       Title("Title:"),
+                       Author("Author:"),
+                       IsReference("Reference Book:")
+
+
+       {}
+       virtual ~ScreenWidgets(){}
+
        Gtk::Button buttonAddBook;
        Gtk::Label  Title;
        Gtk::Entry  TitleEntry;
@@ -41,7 +41,7 @@ private:
        Gtk::ComboBoxText m_Combo;;
        Gtk::Button buttonBack;
        Gtk::Grid   grid;
-       
+
    };
    ScreenWidgets *ScreenWidgetPtr;
 };

@@ -14,23 +14,23 @@ public:
   virtual ~RemoveBookScreen();
 
 protected:
-  
+
 private:
   Gtk::Window& window;
   //Signal handlers:
   void on_button_clicked(const Glib::ustring& data);
   class ScreenWidgets {
-	   public:
-	   ScreenWidgets():buttonRemoveBook("RemoveBook"),
-	                   buttonBack("Back"),
-	                   Title("Title:"),
-	                   Author("Author:"),
-	                   SerialNo("Serial No:")
-	                   
-	                  
-	   {}
-	   virtual ~ScreenWidgets(){}
-	   
+       public:
+       ScreenWidgets():buttonRemoveBook("RemoveBook"),
+                       buttonBack("Back"),
+                       Title("Title:"),
+                       Author("Author:"),
+                       SerialNo("Serial No:")
+
+
+       {}
+       virtual ~ScreenWidgets(){}
+
        Gtk::Button buttonRemoveBook;
        Gtk::Label  Title;
        Gtk::Entry  TitleEntry;
@@ -40,7 +40,7 @@ private:
        Gtk::Entry  SerialNoEntry;
        Gtk::Button buttonBack;
        Gtk::Grid   grid;
-       
+
    };
    ScreenWidgets *ScreenWidgetPtr;
 };

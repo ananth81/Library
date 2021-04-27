@@ -17,20 +17,20 @@ private:
   Gtk::Window& window;
   //Signal handlers:
   void on_button_clicked(const Glib::ustring& data);
- 
+
   class ScreenWidgets {
-	  public:
-	  ScreenWidgets():buttonNewBook("Add New Book"),
-	            buttonRemoveBook("Remove Book"),
-	            buttonAddNewMember("Add New Member"),
-	            buttonRemoveMember("Remove Member"),
-	            buttonIssueBook("Issue / Return Book"),
-	            buttonQueryBookAvailability("Query Book Availability"),
-	            box(Gtk::Orientation::ORIENTATION_VERTICAL)
-	            
-	  {
-	  }
-	 virtual ~ScreenWidgets(){}
+      public:
+      ScreenWidgets():buttonNewBook("Add New Book"),
+                buttonRemoveBook("Remove Book"),
+                buttonAddNewMember("Add New Member"),
+                buttonRemoveMember("Remove Member"),
+                buttonIssueBook("Issue / Return Book"),
+                buttonQueryBookAvailability("Query Book Availability"),
+                box(Gtk::Orientation::ORIENTATION_VERTICAL)
+
+      {
+      }
+     virtual ~ScreenWidgets(){}
      Gtk::Button buttonNewBook;
      Gtk::Button buttonRemoveBook;
      Gtk::Button buttonAddNewMember;

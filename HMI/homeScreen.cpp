@@ -6,17 +6,17 @@ homeScreen::homeScreen(ScreenManager& ScreenMgr,Gtk::Window& win)
   window(win),
   ScreenWidgetPtr(NULL)
 {
-  screenManager.registerScreen(HMISCREENS::HOME_SCREEN,this); 
- 
+  screenManager.registerScreen(HMISCREENS::HOME_SCREEN,this);
+
 }
 void homeScreen::DrawScreen(void)
 {
   window.set_border_width(10);
   ScreenWidgetPtr = new ScreenWidgets;
-  
+
   ScreenWidgetPtr->buttonNewBook.signal_clicked().connect(sigc::bind(sigc::mem_fun(*this,
               &homeScreen::on_button_clicked),"AddNewBook"));
-  
+
   ScreenWidgetPtr->buttonRemoveBook.signal_clicked().connect(sigc::bind(sigc::mem_fun(*this,
               &homeScreen::on_button_clicked),"RemoveBook"));
   ScreenWidgetPtr->buttonAddNewMember.signal_clicked().connect(sigc::bind(sigc::mem_fun(*this,
@@ -36,7 +36,7 @@ void homeScreen::DrawScreen(void)
   ScreenWidgetPtr->box.pack_start(ScreenWidgetPtr->buttonIssueBook);
   ScreenWidgetPtr->box.pack_start(ScreenWidgetPtr->buttonQueryBookAvailability);
   window.show_all_children();
- 
+
 }
 
 void homeScreen::ClearScreen(void)

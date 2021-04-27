@@ -15,21 +15,21 @@ public:
   virtual ~AddMemberScreen();
 
 protected:
-  
+
 private:
   Gtk::Window& window;
   //Signal handlers:
   void on_button_clicked(const Glib::ustring& data);
   class ScreenWidgets {
-	   public:
-	   ScreenWidgets():buttonAddNewMember("Add New Member"),
-	                   buttonBack("Back"),
-	                   Name("Name:"),
-	                   Address("Address:")
-	                  
-	   {}
-	   virtual ~ScreenWidgets(){}
-	   
+       public:
+       ScreenWidgets():buttonAddNewMember("Add New Member"),
+                       buttonBack("Back"),
+                       Name("Name:"),
+                       Address("Address:")
+
+       {}
+       virtual ~ScreenWidgets(){}
+
        Gtk::Button buttonAddNewMember;
        Gtk::Label  Name;
        Gtk::Entry  NameEntry;
@@ -37,7 +37,7 @@ private:
        Gtk::Entry  AddressEntry;
        Gtk::Button buttonBack;
        Gtk::Grid   grid;
-       
+
    };
    ScreenWidgets *ScreenWidgetPtr;
 };

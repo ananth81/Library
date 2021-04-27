@@ -15,25 +15,25 @@ public:
   virtual ~IssueBookScreen();
 
 protected:
-  
+
 private:
   Gtk::Window& window;
   //Signal handlers:
   void on_button_clicked(const Glib::ustring& data);
   class ScreenWidgets {
-	   public:
-	   ScreenWidgets():buttonIssueBook("IssueBook"),
-                       buttonReturnBook("ReturnBook"),    
-	                   buttonBack("Back"),
-	                   Title("Title:"),
-	                   Author("Author:"),
-	                   SerialNo("Serial No:"),
-	                   MemberID("MemberID:")
-	                   
-	                  
-	   {}
-	   virtual ~ScreenWidgets(){}
-	   
+       public:
+       ScreenWidgets():buttonIssueBook("IssueBook"),
+                       buttonReturnBook("ReturnBook"),
+                       buttonBack("Back"),
+                       Title("Title:"),
+                       Author("Author:"),
+                       SerialNo("Serial No:"),
+                       MemberID("MemberID:")
+
+
+       {}
+       virtual ~ScreenWidgets(){}
+
        Gtk::Button buttonIssueBook;
        Gtk::Button buttonReturnBook;
        Gtk::Label  Title;
@@ -46,7 +46,7 @@ private:
        Gtk::Entry  MemberIDEntry;
        Gtk::Button buttonBack;
        Gtk::Grid   grid;
-       
+
    };
    ScreenWidgets *ScreenWidgetPtr;
 };

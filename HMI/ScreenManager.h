@@ -20,7 +20,7 @@ class ScreenManager
        void returnToPreviousScreen();
   private:
        std::vector<HMISCREENS::HMIScreens_t > screenStack;
-       
+
        std::map<HMISCREENS::HMIScreens_t,IScreen*> screenMap;
        LibSQLiteDB& database;
 };
