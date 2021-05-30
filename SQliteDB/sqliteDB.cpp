@@ -250,20 +250,13 @@ int LibSQLiteDB::IssueBook(libBook& libbook)
    if(0 < asprintf(&sqlcommand,"UPDATE LIBRARYBOOKS \
                                 SET MEMBERNAME = '%s', \
                                     MEMBERID = '%s' , \
-<<<<<<< HEAD
                                     DOI = '%s' , \
-                                    DOR = '%s'  \
-=======
-                                    DOI = '%s' \
->>>>>>> db65e72d05a4b8ee00a6703a55aa3147e59b9935
+                                    DOR = '%s' , \
                                 WHERE rowid = '%s' ;",
                                 libbook.getMemberName().c_str(),
                                 libbook.getMemberID().c_str(),
                                 libbook.getDateOfIssue().c_str(),
-<<<<<<< HEAD
                                 libbook.getDateOfReturn().c_str(),
-=======
->>>>>>> db65e72d05a4b8ee00a6703a55aa3147e59b9935
                                 libbook.getSerialNo().c_str()))
    {
       int rc=sqlite3_exec(db,sqlcommand,&libBookcallback,0,&zErrMsg);

@@ -224,11 +224,11 @@ void QueryBookScreen::on_button_clicked(const Glib::ustring& data)
        std::stringstream fmt;
        fmt  << 1900 + ltm->tm_year<<"/"<<1 + ltm->tm_mon<<"/"<<ltm->tm_mday;
        book.setDateOfIssue(fmt.str());
-<<<<<<< HEAD
+
        Calendar cal(1900 + ltm->tm_year,1 + ltm->tm_mon,ltm->tm_mday);
        book.setDateOfReturn(cal.getFutureDate(14));
-=======
->>>>>>> db65e72d05a4b8ee00a6703a55aa3147e59b9935
+
+
        screenManager.processEvent(HMIEvents::ISSUE_BOOK_TO_MEMBER,(void*)&book);
        ScreenWidgetPtr->memberColptr->dialog.hide();
 
