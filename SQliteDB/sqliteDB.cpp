@@ -249,10 +249,12 @@ int LibSQLiteDB::IssueBook(libBook& libbook)
 
    if(0 < asprintf(&sqlcommand,"UPDATE LIBRARYBOOKS \
                                 SET MEMBERNAME = '%s', \
-                                    MEMBERID = '%s'\
+                                    MEMBERID = '%s' , \
+                                    DOI = '%s' \
                                 WHERE rowid = '%s' ;",
                                 libbook.getMemberName().c_str(),
                                 libbook.getMemberID().c_str(),
+                                libbook.getDateOfIssue().c_str(),
                                 libbook.getSerialNo().c_str()))
    {
       int rc=sqlite3_exec(db,sqlcommand,&libBookcallback,0,&zErrMsg);
@@ -276,8 +278,10 @@ int LibSQLiteDB::ReturnBook(libBook& libbook)
    char *sqlcommand =NULL;
    if(0 < asprintf(&sqlcommand,"UPDATE LIBRARYBOOKS \
                                 SET MEMBERID = %lu ,\
-                                    MEMBERNAME = '%s' \
-                                WHERE rowid = '%s' ;",UNUSED_MEMBERID,UNISSUED_NAME,libbook.getSerialNo().c_str()))
+                                    MEMBERNAME = '%s' ,\
+                                    DOI = '%s' , \
+                                    DOR = '%s' \
+                                WHERE rowid = '%s' ;",UNUSED_MEMBERID,UNISSUED_NAME,"N/A","N/A",libbook.getSerialNo().c_str()))
    {
       int rc=sqlite3_exec(db,sqlcommand,&libBookcallback,0,&zErrMsg);
 

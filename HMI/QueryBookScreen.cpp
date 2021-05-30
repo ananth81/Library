@@ -1,5 +1,6 @@
 #include "QueryBookScreen.h"
 #include <iostream>
+#include <ctime>
 #include "libbook.h"
 QueryBookScreen::QueryBookScreen(ScreenManager& ScreenMgr,Gtk::Window& win)
 : Screen(ScreenMgr),
@@ -217,6 +218,11 @@ void QueryBookScreen::on_button_clicked(const Glib::ustring& data)
        row = *iter;
        book.setMemberID(row.get_value(ScreenWidgetPtr->memberColptr->m_memberID).c_str());
        book.setMemberName(row.get_value(ScreenWidgetPtr->memberColptr->m_memberName).c_str());
+       time_t now = time(0);
+       tm *ltm = localtime(&now);
+       std::stringstream fmt;
+       fmt  << 1900 + ltm->tm_year<<"/"<<1 + ltm->tm_mon<<"/"<<ltm->tm_mday;
+       book.setDateOfIssue(fmt.str());
        screenManager.processEvent(HMIEvents::ISSUE_BOOK_TO_MEMBER,(void*)&book);
        ScreenWidgetPtr->memberColptr->dialog.hide();
 
